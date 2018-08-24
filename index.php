@@ -13,38 +13,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         
 </head>
-<?php
-    // require_once('fb-callback2.php');
-    require_once('fb-config.php');
-    // session_start();
-    
 
-    $permissions = ['user_photos'];
-    $accessToken =  $_SESSION['access_token'];  
-    $logoutURL = $helper->getLogoutUrl($accessToken, $redirectURL.'logout.php');
-    if (isset($accessToken)) 
-    {
-        $fb = new Facebook\Facebook([
-        'app_id' => '534582190322560', // Replace {app-id} with your app id
-        'app_secret' => 'aabf7ce7f242d17621318df37f45478b',
-        'default_graph_version' => 'v2.2',
-        'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : 'aabf7ce7f242d17621318df37f45478b'
-        ]);
-    
-        $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
-        $user = $response->getGraphuser();
-
-
-
-    // $accessToken = $_SESSION['access_token'];
-    // if(!isset($_SESSION['access_token'])){
-    //     header("Location: login.php");
-    // }
-    // $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
-    // $user = $response->getGraphuser();
-?>
 <body bgcolor="#e9ebee">
-    
+    <?php
+        // require_once('fb-callback2.php');
+        require_once('fb-config.php');
+        require_once('upload-album.php');
+        // session_start();
+        // require_once('googleDrive-login.php');
+        $permissions = ['user_photos'];
+        $accessToken =  $_SESSION['access_token'];  
+        $logoutURL = $helper->getLogoutUrl($accessToken, $redirectURL.'logout.php');
+        if (isset($accessToken)) 
+        {
+            $fb = new Facebook\Facebook([
+            'app_id' => '534582190322560', // Replace {app-id} with your app id
+            'app_secret' => 'aabf7ce7f242d17621318df37f45478b',
+            'default_graph_version' => 'v2.2',
+            'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : 'aabf7ce7f242d17621318df37f45478b'
+            ]);
+        
+            $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
+            $user = $response->getGraphuser();
+            $_SESSION['Name'] = $user['name'];
+            
+
+        // $accessToken = $_SESSION['access_token'];
+        // if(!isset($_SESSION['access_token'])){
+        //     header("Location: login.php");
+        // }
+        // $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
+        // $user = $response->getGraphuser();
+    ?>
     <section class="profile-header-box">
         <label>rtCamp Facebook Assignment</label>
         <input type="submit" value="Logout">
@@ -67,7 +67,7 @@
 
             </section>
             <section>
-                <p>Tweets
+                <!-- <p>Tweets
                     <br>
                     <span>1</span>
                 </p>
@@ -78,8 +78,10 @@
                 <p>Followers
                     <br>
                     <span>100</span>
-                </p>
+                </p> -->
+                
             </section>
+            
             <section id="ShareBox">
                 <input type="submit" value="Download Selected Album" name="btnClone" id="btnClone" onclick="DownloadSelected()"><br>
                 <input type="submit" value="Move To Google Drive" name="btnDrive" id="btnDrive" onclick="fun()">
@@ -116,6 +118,7 @@
                         <!-- <input type="text" name="txtSearch" placeholder="Search"> -->
                         <input type="text" id="data">
                         <input type="button" value="Download" onclick="DownloadAll()">
+                        <div style="100%"><a href="googleDrive-login.php" style="text-decoration: none; font-weight: bolder; text-content: center;">Google Login</a></div>
                     </div>
                 </section>
                 <section class="row" id="row">
@@ -143,7 +146,7 @@
                                 <img src="<?php echo $b['source']; ?> " alt='' id='imgAlbum' onclick="fullScreen(this)">
                                 <input type='hidden' class="albumID" id='albumID' value="<?php echo $user['albums'][$i]['id']; ?>">
                                 <div id='divAlbum'><span class='checkbox'>*<input type='checkbox' name='' id='' onchange='checkAlbum(this);' value="<?php echo $user['albums'][$i]['id']; ?>"></span><a class='imgCount' onclick="DownloadSingle(<?php echo $user['albums'][$i]['id']; ?>)"><i class="fa fa-file-zip-o"></i></a></div>
-                                <!-- <a onclick="DownloadSingle(this)">Download</a> -->
+                                <a onclick="UploadToDriveSingle(<?php echo $user['albums'][$i]['id']; ?>,'<?php echo $user['albums'][$i]['name']; ?>')">Upload</a>
                             </div>
                         <?php
                                     }
@@ -208,13 +211,13 @@
 <script type="text/javascript">
     var varTimeLine = document.getElementById("TimeLine");
     var varFollower = document.getElementById("Follower");
-    var TimeLineLink = document.getElementById("TimeLineLink");
-    var FollowerLink = document.getElementById("FollowerLink");
+    // var TimeLineLink = document.getElementById("TimeLineLink");
+    // var FollowerLink = document.getElementById("FollowerLink");
     var cnt=0;
     var divShareBox = document.getElementById("ShareBox");
 
     varFollower.style.display = "block";
-    FollowerLink.style.borderBottomWidth = "3px";
+    // FollowerLink.style.borderBottomWidth = "3px";
     // btnClone.style.visibility = "hidden";
     // btnDrive.style.visibility = "hidden";
     
@@ -395,6 +398,45 @@
         xmlhttp.send();
     }
     
+    function UploadToDriveSingle(albumid, name) {
+        // alert("okay");
+        if(getCookie('credentials') == "") {
+            // $('#googleLoginModal').modal('toggle');
+        } else {
+            // $('#loaderModal').modal('toggle');
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // var txt = document.getElementById("data");
+                    // txt.value = this.responseText;
+                    // window.location.".".this.responseText;
+                }
+                else{
+                    alert("There was a problem while using XMLHTTP:\n" + xmlhttp.statusText);
+                }
+            }   
+            xmlhttp.open("GET", "upload-album.php?uploadAlbum=" + albumid + "&albumName=" + name, true);
+            xmlhttp.send(null);
+        }
+    }
+
+
+    function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
     window.onload = function() {
       imgs = document.getElementById('slideshow').children;
       interval = 8000;
@@ -411,13 +453,13 @@
     
 </script>
 
-<script>
+<!-- <script>
     var slider = new airSlider({
         autoPlay: true,
         width: '100%',
         height: '600px'
     });
-</script>
+</script> -->
 <?php
     } else {
         $loginUrl = $helper->getLoginUrl('https://localhost/RTCamp/index.php', $permissions);
