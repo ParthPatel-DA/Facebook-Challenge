@@ -30,10 +30,10 @@
         if (isset($accessToken)) 
         {
             $fb = new Facebook\Facebook([
-            'app_id' => '534582190322560', // Replace {app-id} with your app id
-            'app_secret' => 'aabf7ce7f242d17621318df37f45478b',
+            'app_id' => '269606253764691', // Replace {app-id} with your app id
+            'app_secret' => 'd16a59604495daf88b6e96d112b51415',
             'default_graph_version' => 'v2.2',
-            'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : 'aabf7ce7f242d17621318df37f45478b'
+            'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : 'd16a59604495daf88b6e96d112b51415'
             ]);
         
             $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
@@ -87,7 +87,7 @@
             
             <section id="ShareBox">
                 <input type="submit" value="Download Selected Album" name="btnClone" id="btnClone" onclick="DownloadSelected()"><br>
-                <input type="submit" value="Move To Google Drive" name="btnDrive" id="btnDrive" onclick="fun()">
+                <input type="submit" value="Move To Google Drive" name="btnDrive" id="btnDrive" onclick="UploadSelected()">
             </section>
         </section>
         <section class="main">
@@ -119,9 +119,11 @@
                     </div>
                     <div>
                         <!-- <input type="text" name="txtSearch" placeholder="Search"> -->
-                        <input type="text" id="data">
+                        <!-- <input type="text" id="data"> -->
+                        <input type="button" value="Google Login" onclick="document.location.href='googleDrive-login.php'">
                         <input type="button" value="Download" onclick="DownloadAll()">
-                        <div style="100%"><a href="googleDrive-login.php" style="text-decoration: none; font-weight: bolder; text-content: center;">Google Login</a></div>
+                        <input type="button" value="Upload on Google Drive" onclick="UploadAll()">
+                        <!-- <div style="100%"><a href="googleDrive-login.php" style="text-decoration: none; font-weight: bolder; text-content: center;">Google Login</a></div> -->
                     </div>
                 </section>
                 <section class="row" id="row">
@@ -148,66 +150,26 @@
                             <div>
                                 <img src="<?php echo $b['source']; ?> " alt='' id='imgAlbum' onclick="fullScreen(this)">
                                 <input type='hidden' class="albumID" id='albumID' value="<?php echo $user['albums'][$i]['id']; ?>">
-                                <div id='divAlbum'><span class='checkbox'>*<input type='checkbox' name='' id='' onchange='checkAlbum(this);' value="<?php echo $user['albums'][$i]['id']; ?>"></span><a class='imgCount' onclick="DownloadSingle(<?php echo $user['albums'][$i]['id']; ?>)"><i class="fa fa-file-zip-o"></i></a></div>
-                                <a onclick="UploadToDriveSingle(<?php echo $user['albums'][$i]['id']; ?>,'<?php echo $user['albums'][$i]['name']; ?>')">Upload</a>
+                                <div id='divAlbum'>
+                                    <div id="AlbumName"><?php echo $user['albums'][$i]['name']; ?></div>
+                                    <span class='checkbox'>*<input type='checkbox' name='' id='' onchange='checkAlbum(this);' value="<?php echo $user['albums'][$i]['id']."-".$user['albums'][$i]['name']; ?>"></span>
+                                    <a class='imgCount' onclick="DownloadSingle(<?php echo $user['albums'][$i]['id']; ?>)"><i class="fa fa-save"></i></a>
+                                    <a class="imgGD" onclick="UploadToDriveSingle(<?php echo $user['albums'][$i]['id']; ?>,'<?php echo $user['albums'][$i]['name']; ?>')"><i class="fa fa-cloud-upload"></i></a>
+                                </div>
+                                
                             </div>
                         <?php
                                     }
-                                }
-
-                                    
-                            }
-                            
-                            
-                            
+                                }       
+                            }  
                         ?>
-                        <!-- <div>
-                            <img src="img/image1.jpg" alt="" id="imgAlbum">
-                            <div id="divAlbum"><span class="checkbox"><input type="checkbox" name="" id="" style="" onchange="checkAlbum(this);"></span><span class="imgCount">5</span></div> 
-                        </div>
-                        <div>
-                            <img src="img/photo1.png" alt="" id="imgAlbum">
-                            <div id="divAlbum"><span class="checkbox"><input type="checkbox" name="" id="" style="" onchange="checkAlbum(this);"></span><span class="imgCount">5</span></div> 
-                        </div>
-                        <div>
-                            <img src="img/image3.jpeg" alt="" id="imgAlbum">
-                            <div id="divAlbum"><span class="checkbox"><input type="checkbox" name="" id="" style="" onchange="checkAlbum(this);"></span><span class="imgCount">5</span></div> 
-                        </div>
-                        <div>
-                            <img src="img/image2.jpeg" alt="" id="imgAlbum">
-                            <div id="divAlbum"><span class="checkbox"><input type="checkbox" name="" id="" style="" onchange="checkAlbum(this);"></span><span class="imgCount">5</span></div> 
-                        </div>
-                        <div>
-                            <img src="img/photo2.png" alt="" id="imgAlbum">
-                            <div id="divAlbum"><span class="checkbox"><input type="checkbox" name="" id="" style="" onchange="checkAlbum(this);"></span><span class="imgCount">5</span></div> 
-                        </div>
-                        <div>
-                            <img src="img/image2.jpeg" alt="" id="imgAlbum">
-                            <div id="divAlbum"><span class="checkbox"><input type="checkbox" name="" id="" style="" onchange="checkAlbum(this);"></span><span class="imgCount">5</span></div> 
-                        </div>
-                        <div>
-                            <img src="img/photo4.jpg" alt="" id="imgAlbum">
-                            <div id="divAlbum"><span class="checkbox"><input type="checkbox" name="" id="" style="" onchange="checkAlbum(this);"></span><span class="imgCount">5</span></div> 
-                        </div>
-                        <div>
-                            <img src="img/pic3.jpg" alt="" id="imgAlbum">
-                            <div id="divAlbum"><span class="checkbox"><input type="checkbox" name="" id="" style="" onchange="checkAlbum(this);"></span><span class="imgCount">5</span></div> 
-                        </div>
-                        <div>
-                            <img src="img/image2.jpeg" alt="" id="imgAlbum">
-                            <div id="divAlbum"><span class="checkbox"><input type="checkbox" name="" id="" style="" onchange="checkAlbum(this);"></span><span class="imgCount">5</span></div> 
-                        </div>
-                        <div>
-                            <img src="img/photo3.jpg" alt="" id="imgAlbum">
-                            <div id="divAlbum"><span class="checkbox"><input type="checkbox" name="" id="" style="" onchange="checkAlbum(this);"></span><span class="imgCount">5</span></div> 
-                        </div> -->
                 </section>
             </section>
         </section>
         
     </section>
     <footer>
-        © 2011 rtCamp ALL RIGHTS RESERVED
+        &copy; 2018 rtCamp ALL RIGHTS RESERVED
     </footer>
     
 </body>
@@ -239,15 +201,20 @@
         if(a.checked) {
             var x = element.closest(".checkbox").closest("#divAlbum");
             x.style.background = "#4267b2";
-            
+            x.style.color = "#fff";
             for (var i = 0; i < x.childNodes.length; i++) {
                 if (x.childNodes[i].className == "imgCount") {
                     
                     notes = x.childNodes[i];
                     notes.style.backgroundColor = "#fff";
                     notes.style.color = "#4267b2";
-                    break;
-                }        
+                }
+                if (x.childNodes[i].className == "imgGD") {
+                    
+                    notes = x.childNodes[i];
+                    notes.style.backgroundColor = "#fff";
+                    notes.style.color = "#4267b2";
+                }
             }
             element.closest(".checkbox").style.backgroundColor = "#fff";
             element.closest(".checkbox").style.color = "#4267b2";
@@ -255,15 +222,21 @@
         }
         else {
             var x = element.closest(".checkbox").closest("#divAlbum");
-            x.style.background = "#fff"
+            x.style.background = "#fff";
+            x.style.color = "#4267b2";
             for (var i = 0; i < x.childNodes.length; i++) {
                 if (x.childNodes[i].className == "imgCount") {
                     
                     notes = x.childNodes[i];
                     notes.style.backgroundColor = "#657786";
                     notes.style.color = "#fff";
-                    break;
-                }        
+                }    
+                if (x.childNodes[i].className == "imgGD") {
+                    
+                    notes = x.childNodes[i];
+                    notes.style.backgroundColor = "#657786";
+                    notes.style.color = "#fff";
+                }      
             }
             element.closest(".checkbox").style.backgroundColor = "#657786";
             element.closest(".checkbox").style.color = "#657786";
@@ -331,7 +304,7 @@
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                var txt = document.getElementById("data");
+                // var txt = document.getElementById("data");
                 y.innerHTML = this.responseText;
                 // txt.value = this.responseText;
             }
@@ -360,8 +333,8 @@
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                var txt = document.getElementById("data");
-                txt.value = this.responseText;
+                // var txt = document.getElementById("data");
+                // txt.value = this.responseText;
             }
         }
         xmlhttp.open("GET", "get-images.php?downloadsingle="+element, true);
@@ -413,10 +386,10 @@
                     // var txt = document.getElementById("data");
                     // txt.value = this.responseText;
                     // window.location.".".this.responseText;
-                    alert("okay");
-                }
-                else{
-                    alert("There was a problem while using XMLHTTP:\n" + xmlhttp.statusText);
+                    if(xmlhttp.responseText=="true"){
+                        alert("Album Successfully Uploaded.");
+                    }
+                    
                 }
             }   
             xmlhttp.open("GET", "upload-album.php?uploadAlbum=" + albumid + "&albumName=" + name, true);
@@ -424,6 +397,48 @@
         }
     }
 
+    function UploadAll(){
+        var albumID="";
+        var check = document.getElementById('row').querySelectorAll('input[type=checkbox]');
+        for(var i = 0; i < check.length; i++){
+            albumID+=check[i].value+"/";
+        }
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // var txt = document.getElementById("data");
+                // txt.value = this.responseText;
+                // window.location.".".this.responseText;
+                if(xmlhttp.responseText=="true"){
+                    alert("Albums Successfully Uploaded.");
+                }
+            }
+        }
+        xmlhttp.open("GET", "upload-album.php?uploadAlbums=" + albumID, true);
+        xmlhttp.send();
+    }
+
+    function UploadSelected(){
+        var albumID="";
+        var check = document.getElementById('row').querySelectorAll('input[type=checkbox]:checked');
+        for(var i = 0; i < check.length; i++){
+            albumID+=check[i].value+"/";
+        }
+        alert(albumID);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // var txt = document.getElementById("data");
+                // txt.value = this.responseText;
+                // window.location.".".this.responseText;
+                if(xmlhttp.responseText=="true"){
+                    alert("Albums Successfully Uploaded.");
+                }
+            }
+        }
+        xmlhttp.open("GET", "upload-album.php?uploadAlbums=" + albumID, true);
+        xmlhttp.send();
+    }
 
     function getCookie(cname) {
             var name = cname + "=";

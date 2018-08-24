@@ -7,15 +7,16 @@ require_once 'lib/google-api-php-client/src/Google/Service/Drive.php';
 require_once 'googleDrive-config.php';
 
 $fb = new Facebook\Facebook([
-    'app_id' => '534582190322560', // Replace {app-id} with your app id
-    'app_secret' => 'aabf7ce7f242d17621318df37f45478b',
+    'app_id' => '269606253764691', // Replace {app-id} with your app id
+    'app_secret' => 'd16a59604495daf88b6e96d112b51415',
     'default_graph_version' => 'v2.2',
-    'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : 'aabf7ce7f242d17621318df37f45478b'
+    'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : 'd16a59604495daf88b6e96d112b51415'
     ]);
+
+
 
 if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
 
-    // Init the variables
     $driveInfo = "";
     $folderName = "";
     $folderDesc = "";
@@ -25,9 +26,8 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
 
     // Get the client Google credentials
     $credentials = $_COOKIE["credentials"];
-    $str="{\"web\":{\"client_id\":\"131197583719-det06fk5eu1hc5shbugvcdledlubtgf4.apps.googleusercontent.com\",\"project_id\":\"fleet-petal-214209\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://www.googleapis.com/oauth2/v3/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"hiQKubN1n64mtHmH1MfLRfhJ\",\"redirect_uris\":[\"http://localhost/RTCamp/\"],\"https://localhost/RTCamp/googleDrive-login.php\"]}}";
+    $json = json_decode(file_get_contents("lib/conf/GoogleClientId.json"), true);
     // Get your app info from JSON downloaded from google dev console
-    $json = json_decode($str, true);
     $CLIENT_ID = $json['web']['client_id'];
     $CLIENT_SECRET = $json['web']['client_secret'];
     $REDIRECT_URI = $json['web']['redirect_uris'][0];
@@ -53,10 +53,17 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
 
     $masterFolder = getFolderExistsCreate($service, $masterFolderName, $folderDesc, "NULL");
     $albumFolder = getFolderExistsCreate($service, $albumName, $folderDesc, $masterFolder);
+    
     for ($i=0; $i < count($allImages); $i++) {
-        $imageDetails = getImageDetails($fb, $allImages[$i]);
+        
+        $response = $fb->get(
+            '/'.$allImages[$i]['id'].'?fields=name,id,created_time,images',
+            $_SESSION['access_token']
+        );
+        $imageDetails = $response->getGraphNode();
+        // $imageDetails = getImageDetails($fb, $allImages[$i]);
         $file_tmp_name = $imageDetails['images'][4]['source'];
-
+        
         // Set the file metadata for drive
         $mimeType = 'image/jpeg';
         $title = $i.".jpg";
@@ -65,8 +72,7 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
         // Call the insert function with parameters listed below
         $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
     }
-
-    echo "Success";
+    echo "true";
 }
 
 if (isset($_REQUEST['uploadAlbums'])) {
@@ -78,10 +84,8 @@ if (isset($_REQUEST['uploadAlbums'])) {
     $albums = $_REQUEST['uploadAlbums'];
     // Get the client Google credentials
     $credentials = $_COOKIE["credentials"];
-    $str="{\"web\":{\"client_id\":\"131197583719-det06fk5eu1hc5shbugvcdledlubtgf4.apps.googleusercontent.com\",\"project_id\":\"fleet-petal-214209\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://www.googleapis.com/oauth2/v3/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"hiQKubN1n64mtHmH1MfLRfhJ\",\"redirect_uris\":[\"http://localhost/RTCamp/\"],\"https://localhost/RTCamp/googleDrive-login.php\"]}}";
-    // $str = "{\"web\":{\"client_id\":\"59128490941-9pi7oolm20ot5h9m62ngj6g0f3e7j0pb.apps.googleusercontent.com\",\"project_id\":\"twittertemp-1533798939629\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://www.googleapis.com/oauth2/v3/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"OIDqKUtb5GpwMjM12ob6fUIV\",\"redirect_uris\":[\"http://localhost/FacebookTest/\",\"https://localhost/rtCamp_Facebook_Assignment/googleLogin.php\"]}}";
-    // Get your app info from JSON downloaded from google dev console
-    $json = json_decode($str, true);
+    $json = json_decode(file_get_contents("lib/conf/GoogleClientId.json"), true);
+    
     $CLIENT_ID = $json['web']['client_id'];
     $CLIENT_SECRET = $json['web']['client_secret'];
     $REDIRECT_URI = $json['web']['redirect_uris'][0];
@@ -100,7 +104,7 @@ if (isset($_REQUEST['uploadAlbums'])) {
     $client->setAccessToken($credentials);
     $service = new Google_Service_Drive($client);
 
-    $arrAlbums = explode('_', $albums);
+    $arrAlbums = explode('/', $albums);
 
     foreach ($arrAlbums as $album) {
         $album_IDs_Names = explode('-', $album);
@@ -112,7 +116,12 @@ if (isset($_REQUEST['uploadAlbums'])) {
         $masterFolder = getFolderExistsCreate($service, $masterFolderName, $folderDesc, "NULL");
         $albumFolder = getFolderExistsCreate($service, $album_IDs_Names[1], $folderDesc, $masterFolder);
         for ($i=0; $i < count($allImages); $i++) {
-            $imageDetails = getImageDetails($fb, $allImages[$i]);
+            $response = $fb->get(
+                '/'.$allImages[$i]['id'].'?fields=name,id,created_time,images',
+                $_SESSION['access_token']
+            );
+            $imageDetails = $response->getGraphNode();
+            // $imageDetails = getImageDetails($fb, $allImages[$i]);
             $file_tmp_name = $imageDetails['images'][4]['source'];
 
             // Set the file metadata for drive
@@ -124,14 +133,14 @@ if (isset($_REQUEST['uploadAlbums'])) {
             $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
         }
     }
-    echo "Success";
+    echo "true";
 }
 
 function getAllAlbumImages($fb, $albumID)
 {
     try {
         $response = $fb->get(
-            '/'.$albumID.'/photos?limit=500',
+            '/'.$albumID.'/photos?limit=100',
             $_SESSION['access_token']
         );
     } catch (Facebook\Exceptions\FacebookResponseException $e) {

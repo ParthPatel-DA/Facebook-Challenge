@@ -3,10 +3,10 @@
     require_once 'fb-config.php';
     // require_once 'index.php';
     // $fb = new Facebook\Facebook([
-    //     'app_id' => '534582190322560', // Replace {app-id} with your app id
-    //     'app_secret' => 'aabf7ce7f242d17621318df37f45478b',
+    //     'app_id' => '269606253764691', // Replace {app-id} with your app id
+    //     'app_secret' => 'd16a59604495daf88b6e96d112b51415',
     //     'default_graph_version' => 'v2.2',
-    //     'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token'] : 'aabf7ce7f242d17621318df37f45478b'
+    //     'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token'] : 'd16a59604495daf88b6e96d112b51415'
     //     ]);
 
     // $helper = $fb->getRedirectLoginHelper();

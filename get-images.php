@@ -8,10 +8,10 @@
     if (isset($accessToken)) 
     {
         $fb = new Facebook\Facebook([
-        'app_id' => '534582190322560', // Replace {app-id} with your app id
-        'app_secret' => 'aabf7ce7f242d17621318df37f45478b',
+        'app_id' => '269606253764691', // Replace {app-id} with your app id
+        'app_secret' => 'd16a59604495daf88b6e96d112b51415',
         'default_graph_version' => 'v2.2',
-        'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : 'aabf7ce7f242d17621318df37f45478b'
+        'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : 'd16a59604495daf88b6e96d112b51415'
         ]);
     
     
@@ -134,9 +134,10 @@
             $selected_album_list=explode("/",$_REQUEST['downloadselected']);
             // print_r($selected_album_list);
             for($i = 0; $i < count($selected_album_list)-1; $i++){
-                $re = $fb->get('/'.$selected_album_list[$i].'/photos?limit=100',$accessToken);
+                $album_IDs_Names = explode('-', $selected_album_list[$i]);
+                $re = $fb->get('/'.$album_IDs_Names[0].'/photos?limit=100',$accessToken);
                 $graphEdge = $re->getGraphEdge();
-                $album_id=$selected_album_list[$i];
+                $album_id=$album_IDs_Names[1];
                 $zip=new ZipArchive();
                 try{
                     $zip->open('Downloads/'.$album_id.'.zip', ZipArchive::CREATE);
@@ -153,7 +154,7 @@
                     header('Content-Disposition: attachment; filename=Downloads/'.$album_id.'.zip');
                     header('Content-Type: application/zip');
                     readfile('Downloads/'.$album_id.'.zip');
-                    echo $album_id.".php";
+                    // echo $album_id.".php";
                     // echo "<script>alert('Album successfully downloaded');</script>";
                 }catch(Facebook\Exceptions\FacebookSDKException $e){
                     echo "SDK Exception: ".$e->getMessage();
