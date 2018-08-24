@@ -22,6 +22,9 @@
         // session_start();
         // require_once('googleDrive-login.php');
         $permissions = ['user_photos'];
+        if(!isset($_SESSION['access_token'])){
+            header("Location: login.php");
+        }
         $accessToken =  $_SESSION['access_token'];  
         $logoutURL = $helper->getLogoutUrl($accessToken, $redirectURL.'logout.php');
         if (isset($accessToken)) 
@@ -410,6 +413,7 @@
                     // var txt = document.getElementById("data");
                     // txt.value = this.responseText;
                     // window.location.".".this.responseText;
+                    alert("okay");
                 }
                 else{
                     alert("There was a problem while using XMLHTTP:\n" + xmlhttp.statusText);
