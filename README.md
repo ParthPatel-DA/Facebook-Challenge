@@ -56,3 +56,5 @@ PHP
     - Facebook PHP SDK v5: http://developers.facebook.com
     - Google drive PHP client: http://developers.google.com
     - Font-Awesome: https://www.fontawesome.com
+    
+# Note : I got same problem with github so that in between once I remove the repository.
