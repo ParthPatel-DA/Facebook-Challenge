@@ -1,7 +1,5 @@
-<?php 
-
+<?php
     require_once 'lib/Facebook/autoload.php';
-    // require_once 'lib/conf/fb-key.json';
 
     if (!session_id()) 
     {

@@ -1,5 +1,4 @@
 <?php
-        // session_start();
         require_once "googleDrive-config.php";
 
         global $CLIENT_ID, $CLIENT_SECRET, $REDIRECT_URI;

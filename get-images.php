@@ -41,6 +41,7 @@
         }
 
         if(isset($_REQUEST['downloadsingle'])){
+            $result = "true";
             $re = $fb->get('/'.$_REQUEST['downloadsingle'].'/photos?limit=100',$accessToken);
             $graphEdge = $re->getGraphEdge();
             $album_id=$_REQUEST['downloadsingle'];
@@ -54,24 +55,20 @@
                     $graphNode = $res->getGraphNode();
                     $path=$graphNode['images'][0]; 
                     $image_path=$path['source'];
-                    $zip->addFromString($j.'.jpg', file_get_contents($image_path));
+                    $zip->addFromString($j.'.jpg', file_get_contents($image_path));                    
                 }
                 $zip->close();
-                header('Content-Disposition: attachment; filename=Downloads/'.$album_id.'.zip');
-                header('Content-Type: application/zip');
-                readfile('Downloads/'.$album_id.'.zip');
-                header("location:display-album.php");
-                echo "<script>alert('Album successfully downloaded');</script>";
+                $result .= "_Downloads/".$album_id.".zip";
+                echo $result;
             }catch(Facebook\Exceptions\FacebookSDKException $e){
                 echo "SDK Exception: ".$e->getMessage();
             }
         }
         
         if(isset($_REQUEST['downloadall'])){
-            // $album_list="";
+            $result = "true";
             for($i=0;$i<count($user['albums']);$i++)
             {
-                // $album_list .= (string)$user['albums'][$i]['id'] . "/";
                 $re = $fb->get('/'.$user['albums'][$i]['id'].'/photos?limit=100',$accessToken);
                 $graphEdge = $re->getGraphEdge();
                 $album_id=$user['albums'][$i]['id'];
@@ -88,52 +85,18 @@
                         $zip->addFromString($j.'.jpg', file_get_contents($image_path));
                     }
                     $zip->close();
-                    header('Content-Disposition: attachment; filename=Downloads/'.$album_id.'.zip');
-                    header('Content-Type: application/zip');
-                    readfile('Downloads/'.$album_id.'.zip');
-                    echo $album_id.".php";
-                    // echo "<script>alert('Album successfully downloaded');</script>";
+                    $result .= "_Downloads/".$album_id.".zip";
                 }catch(Facebook\Exceptions\FacebookSDKException $e){
                     echo "SDK Exception: ".$e->getMessage();
                 }
                 
             }
-
-            // $selected_album_list=explode("/",$album_list);
-            // print_r($selected_album_list);
-            // for($i=1;$i<=count($selected_album_list);$i++)
-            // {
-            //     $re = $fb->get('/'.$selected_album_list[$i].'/photos?limit=100',$accessToken);
-            //     $graphEdge = $re->getGraphEdge();
-            //     $album_id=$_GET['albumid'];
-            //     $zip=new ZipArchive();
-            //     try{
-            //         $zip->open('Downloads/'.$selected_album_list[$i].'.zip', ZipArchive::CREATE);
-            //         ini_set('max_execution_time', 300);
-            //         for($j=0;$j<count($graphEdge);$j++)
-            //         {
-            //             $res = $fb->get('/'.$graphEdge[$j]['id'].'?fields=images',$accessToken);
-            //             $graphNode = $res->getGraphNode();
-            //             $path=$graphNode['images'][0]; 
-            //             $image_path=$path['source'];
-            //             $zip->addFromString($j.'.jpg', file_get_contents($image_path));
-            //         }
-            //         $zip->close();
-            //         header('Content-Disposition: attachment; filename=Downloads/'.$selected_album_list[$i].'.zip');
-            //         header('Content-Type: application/zip');
-            //         readfile('Downloads/'.$selected_album_list[$i].'.zip');
-            //         header("location:display-album.php");
-            //         echo '<script>alert("Album successfully downloaded");</script>';
-            //     }catch(Facebook\Exceptions\FacebookSDKException $e){
-            //         echo "SDK Exception: ".$e->getMessage();
-            //     }
-            // }
+            echo $result;
         }
 
         if(isset($_REQUEST['downloadselected'])){
-            // $album_list=;
+            $result = "true";
             $selected_album_list=explode("/",$_REQUEST['downloadselected']);
-            // print_r($selected_album_list);
             for($i = 0; $i < count($selected_album_list)-1; $i++){
                 $album_IDs_Names = explode('-', $selected_album_list[$i]);
                 $re = $fb->get('/'.$album_IDs_Names[0].'/photos?limit=100',$accessToken);
@@ -152,15 +115,12 @@
                         $zip->addFromString($j.'.jpg', file_get_contents($image_path));
                     }
                     $zip->close();
-                    header('Content-Disposition: attachment; filename=Downloads/'.$album_id.'.zip');
-                    header('Content-Type: application/zip');
-                    readfile('Downloads/'.$album_id.'.zip');
-                    // echo $album_id.".php";
-                    // echo "<script>alert('Album successfully downloaded');</script>";
+                    $result .= "_Downloads/".$album_id.".zip";
                 }catch(Facebook\Exceptions\FacebookSDKException $e){
                     echo "SDK Exception: ".$e->getMessage();
                 }
             }
+            echo $result;
         }
 
     } else {
