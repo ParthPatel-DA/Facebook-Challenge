@@ -29,11 +29,12 @@
         $logoutURL = $helper->getLogoutUrl($accessToken, $redirectURL.'logout.php');
         if (isset($accessToken)) 
         {
+            $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
             $fb = new Facebook\Facebook([
-            'app_id' => '269606253764691', // Replace {app-id} with your app id
-            'app_secret' => 'd16a59604495daf88b6e96d112b51415',
+            'app_id' => $fb_json["app-id"], // Replace {app-id} with your app id
+            'app_secret' => $fb_json["app-secret"],
             'default_graph_version' => 'v2.2',
-            'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : 'd16a59604495daf88b6e96d112b51415'
+            'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : $fb_json["app-secret"]
             ]);
         
             $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
@@ -168,6 +169,7 @@
         </section>
         
     </section>
+    <!-- <section style=""></section> -->
     <footer>
         &copy; 2018 rtCamp ALL RIGHTS RESERVED
     </footer>

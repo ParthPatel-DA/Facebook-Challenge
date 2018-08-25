@@ -1,15 +1,16 @@
 <?php 
 
     require_once 'lib/Facebook/autoload.php';
+    // require_once 'lib/conf/fb-key.json';
 
     if (!session_id()) 
     {
         session_start(); 
     }
-    
+    $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
     $FB = new \Facebook\Facebook([
-        'app_id' => '269606253764691',
-        'app_secret' => 'd16a59604495daf88b6e96d112b51415',
+        'app_id' => $fb_json["app-id"],
+        'app_secret' => $fb_json["app-secret"],
         'default_graph_version' => 'v2.2'
         ]);
 
