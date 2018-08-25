@@ -39,15 +39,20 @@
         elementcontainer.setAttribute("onclick", "cancelFullScreen()");
         var varTimeLine = document.getElementById("TimeLine");
         var y = document.getElementById("slideshow");
-        y.innerHTML = "";
+        // y.innerHTML = "";
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 if(xmlhttp.responseText=="true"){
-                    y.innerHTML = this.responseText;
-                    modelBG.style.display = "none";
-                    model.style.display = "none";
-                    varTimeLine.style.display = "block";
+                    // if(this.responseText){
+                        // modelBG.style.display = "none";
+                        // model.style.display = "none";
+                        alert(this.responseText);
+                    // }
+                    // y.innerHTML = this.responseText;
+                    // modelBG.style.display = "none";
+                    // model.style.display = "none";
+                    // varTimeLine.style.display = "block";
                 }
             }
         }
@@ -242,6 +247,15 @@
         model.style.display = "block";
         document.getElementById("modelspinner").style.display = "block";
         document.getElementById("modelDes").innerHTML = "Please wait while uploading Albums";
+        document.getElementById("modelMsg").style.display = "block";
+        document.getElementById("modelGoogleLogin").style.display = "none";
+    }
+
+    function Model(){
+        modelBG.style.display = "block";
+        model.style.display = "block";
+        document.getElementById("modelspinner").style.display = "block";
+        document.getElementById("modelDes").innerHTML = "Please wait while feaching Albums";
         document.getElementById("modelMsg").style.display = "block";
         document.getElementById("modelGoogleLogin").style.display = "none";
     }
