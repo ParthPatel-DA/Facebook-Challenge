@@ -47,8 +47,6 @@
             <section>
                 <label><?php echo $user['name']; ?></label>
                 <br>
-                <span><?php echo "#".$user['id']; ?></span>
-                <br>
 
             </section>
             <section></section>
