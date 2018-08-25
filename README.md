@@ -43,7 +43,13 @@ PHP
 
 # User guide:
 
-    I will all User guide in same time.
+    1. First go to login page and click to login button. and it allow to use for facebook authentication.
+    2. In the album list page, album image, check box, google drive upload button and download button are display.
+    3. When you click on upload button and save button you can upload album and download zip file respectively.
+    4. You can select same album and upload and save images also.
+    5. Their are two button Download and Upload on Google Drive which are use for all album.
+    6. You can Logout the account as well.
+    7. I am use core css and javascript. on other libraries.
 
 # External Libraries :
 
