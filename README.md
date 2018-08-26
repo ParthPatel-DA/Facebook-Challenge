@@ -41,15 +41,25 @@ PHP
 ## Link to the Live Project: https://parthpatel98149.000webhostapp.com
 ## Github Project Link: https://github.com/ParthPatel-DA/Facebook-Challenge
 
-# User guide:
+# Deployment Guide:
 
-    1. First go to login page and click to login button. and it allow to use for facebook authentication.
-    2. In the album list page, album image, check box, google drive upload button and download button are display.
-    3. When you click on upload button and save button you can upload album and download zip file respectively.
-    4. You can select same album and upload and save images also.
-    5. Their are two button Download and Upload on Google Drive which are use for all album.
-    6. You can Logout the account as well.
-    7. I am use core css and javascript. on other libraries.
+    I deployed my website on server but I am facing problem of cookie. So, I talk with placement cell of my college. They suggested me to put instruction on GitHub.
+    So I gave instruction how to deploy website on PHP local server. Please check it locally.
+    1.	First go to https://github.com/ParthPatel-DA/Facebook-Challenge link and click on “Clone and Download” button you will get zip file.
+    2.	Then, unzip folder at “/xampp/htdocs/Facebook-Challenge” or “wamp/www/Facebook-Challenge”.
+    3.	Folder must be named with “Facebook-Challenge” because I setup facebook app and google app redirect by this name.
+
+
+# User Guide:
+
+    1.	First go to login page and click on login button. It will authenticate user by facebook.
+    2.	After authentication it will redirect to the album list page where user can see album list. In each album list, there will album image, check box, google drive upload button and download album button will display.
+    3.	When user click on album image, it display images in full screen mode with slider.  There are buttons under the image from which user can upload album on google drive and download album zip file by clicking on upload and save button respectively.
+    4.	Using checkbox, user can select multiple albums for uploading and downloading by clicking button on bottom-left.
+    5.	By clicking, top-right button user can upload and download all albums.
+    6.	By clicking, on logout button user can logout form the website.
+    7.	I use only css and javascript, no other libraries. 
+
 
 # External Libraries :
 
@@ -57,4 +67,4 @@ PHP
     - Google drive PHP client: http://developers.google.com
     - Font-Awesome: https://www.fontawesome.com
     
-# Note : I got same problem with github so that in between once I remove the repository.
+# Note : I got some problem with github so that in between once I remove the repository.
