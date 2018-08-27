@@ -133,7 +133,7 @@
 </body>
 <?php
     } else {
-        $loginUrl = $helper->getLoginUrl('https://localhost/RTCamp/index.php', $permissions);
+        $loginUrl = $helper->getLoginUrl('https://localhost/Facebook-Challenge/index.php', $permissions);
     }
 ?>
 </html>
