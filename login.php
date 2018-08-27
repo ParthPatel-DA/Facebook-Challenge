@@ -20,7 +20,7 @@
                     <?php
                         require_once('fb-config.php');
                         $permissions = ['email,user_photos']; // Optional permissions
-                        $loginUrl = $helper->getLoginUrl('https://localhost/RTCamp/fb-callback.php', $permissions);
+                        $loginUrl = $helper->getLoginUrl('https://localhost/Facebook-Challenge/fb-callback.php', $permissions);
                     
                         echo '<a href="' . htmlspecialchars($loginUrl) . '" style="background: #4267b2; color: #fff; text-decoration: none; font-size: 20px; font-weight: bolder; padding: 10px 30px; margin-top: 50px;">Login With Facebook</a>';
                     ?>
