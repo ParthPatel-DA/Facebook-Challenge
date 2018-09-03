@@ -43,16 +43,16 @@
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                if(xmlhttp.responseText=="true"){
-                    // if(this.responseText){
-                        // modelBG.style.display = "none";
-                        // model.style.display = "none";
-                        alert(this.responseText);
-                    // }
-                    // y.innerHTML = this.responseText;
-                    // modelBG.style.display = "none";
-                    // model.style.display = "none";
-                    // varTimeLine.style.display = "block";
+                if(!(xmlhttp.responseText=="")){
+                    if(this.responseText){
+                        modelBG.style.display = "none";
+                        model.style.display = "none";
+                        // alert(this.responseText);
+                    }
+                    y.innerHTML = this.responseText;
+                    modelBG.style.display = "none";
+                    model.style.display = "none";
+                    varTimeLine.style.display = "block";
                 }
             }
         }

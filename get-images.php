@@ -4,7 +4,6 @@
 
     $permissions = ['user_photos'];
     $accessToken =  $_SESSION['access_token'];  
-    $logoutURL = $helper->getLogoutUrl($accessToken, $redirectURL.'logout.php');
     if (isset($accessToken)) 
     {
         $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
