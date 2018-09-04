@@ -81,7 +81,7 @@
                             for($i=0;$i<count($user['albums']);$i++)
                             {
                               $response = $fb->get(
-                                '/'.$user['albums'][$i]['id'].'/photos?limit=100',
+                                '/'.$user['albums'][$i]['id'].'/photos?limit=200',
                                 $accessToken
                               );
                               $a = $response->getGraphEdge();

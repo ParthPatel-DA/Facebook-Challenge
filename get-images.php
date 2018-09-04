@@ -22,7 +22,7 @@
         if(isset($_REQUEST['slidealbumid'])){
             $images = "";
             $albumID = $_REQUEST['slidealbumid'];
-            $response = $fb->get('/'.$albumID.'/photos?limit=100', $accessToken);
+            $response = $fb->get('/'.$albumID.'/photos?limit=200', $accessToken);
             $cnt=0;
             $a = $response->getGraphEdge();
             for($j=0;$j<count($a);$j++){
@@ -41,7 +41,7 @@
 
         if(isset($_REQUEST['downloadsingle'])){
             $result = "true";
-            $re = $fb->get('/'.$_REQUEST['downloadsingle'].'/photos?limit=100',$accessToken);
+            $re = $fb->get('/'.$_REQUEST['downloadsingle'].'/photos?limit=200',$accessToken);
             $graphEdge = $re->getGraphEdge();
             $album_id=$_REQUEST['downloadsingle'];
             $zip=new ZipArchive();
@@ -68,7 +68,7 @@
             $result = "true";
             for($i=0;$i<count($user['albums']);$i++)
             {
-                $re = $fb->get('/'.$user['albums'][$i]['id'].'/photos?limit=100',$accessToken);
+                $re = $fb->get('/'.$user['albums'][$i]['id'].'/photos?limit=200',$accessToken);
                 $graphEdge = $re->getGraphEdge();
                 $album_id=$user['albums'][$i]['id'];
                 $zip=new ZipArchive();
@@ -98,7 +98,7 @@
             $selected_album_list=explode("/",$_REQUEST['downloadselected']);
             for($i = 0; $i < count($selected_album_list)-1; $i++){
                 $album_IDs_Names = explode('-', $selected_album_list[$i]);
-                $re = $fb->get('/'.$album_IDs_Names[0].'/photos?limit=100',$accessToken);
+                $re = $fb->get('/'.$album_IDs_Names[0].'/photos?limit=200',$accessToken);
                 $graphEdge = $re->getGraphEdge();
                 $album_id=$album_IDs_Names[1];
                 $zip=new ZipArchive();

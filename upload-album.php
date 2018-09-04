@@ -141,7 +141,7 @@ function getAllAlbumImages($fb, $albumID)
 {
     try {
         $response = $fb->get(
-            '/'.$albumID.'/photos?limit=100',
+            '/'.$albumID.'/photos?limit=200',
             $_SESSION['access_token']
         );
     } catch (Facebook\Exceptions\FacebookResponseException $e) {
