@@ -121,7 +121,7 @@
         <center><section id="model-body">
             <i id="modelspinner" class="fa fa-spinner fa-pulse"></i><br><br>
             <label id="modelDes">Please wait while downloading Albums</label><br><br>
-            <span id="modelMsg">It may take same time. Don't refresh page. This pop-up autometic automatically close.</span>
+            <span id="modelMsg">It may take same time. Don't refresh page. This pop-up automatically close.</span>
             <input id="modelGoogleLogin" type="button" value="Google Login" onclick="document.location.href='googleDrive-login.php'">
         </section></center>
     </section>

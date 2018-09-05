@@ -73,24 +73,28 @@
                 $album_id=$user['albums'][$i]['id'];
                 $zip=new ZipArchive();
                 try{
-                    $zip->open('Downloads/'.$album_id.'.zip', ZipArchive::CREATE);
+                    if(file_exists('Downloads/'.$user['id'].'.zip')){
+                        unlink('Downloads/'.$user['id']."_".$user['name'].'.zip');
+                    }
+                    $zip->open('Downloads/'.$user['id']."_".$user['name'].'.zip', ZipArchive::CREATE);
                     ini_set('max_execution_time', 300);
+                    $zip->addEmptyDir($user['albums'][$i]['name']);
                     for($j=0;$j<count($graphEdge);$j++)
                     {
                         $res = $fb->get('/'.$graphEdge[$j]['id'].'?fields=images',$accessToken);
                         $graphNode = $res->getGraphNode();
                         $path=$graphNode['images'][0]; 
                         $image_path=$path['source'];
-                        $zip->addFromString($j.'.jpg', file_get_contents($image_path));
+                        $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($image_path));
                     }
                     $zip->close();
-                    $result .= "_Downloads/".$album_id.".zip";
+                    
                 }catch(Facebook\Exceptions\FacebookSDKException $e){
                     echo "SDK Exception: ".$e->getMessage();
                 }
                 
             }
-            echo $result;
+            echo $result."_Downloads/".$user['id']."_".$user['name'].".zip";
         }
 
         if(isset($_REQUEST['downloadselected'])){
@@ -103,23 +107,27 @@
                 $album_id=$album_IDs_Names[1];
                 $zip=new ZipArchive();
                 try{
-                    $zip->open('Downloads/'.$album_id.'.zip', ZipArchive::CREATE);
+                    if(file_exists('Downloads/'.$user['id'].'.zip')){
+                        unlink('Downloads/'.$user['id']."_".$user['name'].'.zip');
+                    }
+                    $zip->open('Downloads/'.$user['id']."_".$user['name'].'.zip', ZipArchive::CREATE);
                     ini_set('max_execution_time', 300);
+                    $zip->addEmptyDir($album_id);
                     for($j=0;$j<count($graphEdge);$j++)
                     {
                         $res = $fb->get('/'.$graphEdge[$j]['id'].'?fields=images',$accessToken);
                         $graphNode = $res->getGraphNode();
                         $path=$graphNode['images'][0]; 
                         $image_path=$path['source'];
-                        $zip->addFromString($j.'.jpg', file_get_contents($image_path));
+                        $zip->addFromString($album_id."/".$j.'.jpg', file_get_contents($image_path));
                     }
                     $zip->close();
-                    $result .= "_Downloads/".$album_id.".zip";
+                    
                 }catch(Facebook\Exceptions\FacebookSDKException $e){
                     echo "SDK Exception: ".$e->getMessage();
                 }
             }
-            echo $result;
+            echo $result."_Downloads/".$user['id']."_".$user['name'].".zip";
         }
 
     } else {

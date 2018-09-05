@@ -86,9 +86,9 @@
                 var result = xmlhttp.responseText;
                 var resultArray = result.split("_");
                 if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
-                    for (i = 1; i < resultArray.length; i++) {
-                        window.open(resultArray[i], '_blank');
-                    }
+                    // for (i = 1; i < resultArray.length; i++) {
+                        window.open(resultArray[1]+"_"+resultArray[2], '_blank');
+                    // }
                     modelBG.style.display = "none";
                     model.style.display = "none";
                 }
@@ -111,9 +111,9 @@
                 var result = xmlhttp.responseText;
                 var resultArray = result.split("_");
                 if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
-                    for (i = 1; i < resultArray.length; i++) {
-                        window.open(resultArray[i], '_blank');
-                    }
+                    // for (i = 1; i < resultArray.length; i++) {
+                        window.open(resultArray[1]+"_"+resultArray[2], '_blank');
+                    // }
                     modelBG.style.display = "none";
                     model.style.display = "none";
                 }
