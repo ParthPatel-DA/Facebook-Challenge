@@ -99,6 +99,11 @@
                     modelBG.style.display = "none";
                     model.style.display = "none";
                 }
+                else {
+                    alert("Couldn't download albums. Please try again.");
+                    modelBG.style.display = "none";
+                    model.style.display = "none";
+                }
             }
         }
         xmlhttp.open("GET", "get-images.php?downloadall=all", true);
