@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+    <link rel="stylesheet" type="text/css" media="screen" href="lib/air-slider.min.css" />
+    <script src="lib/air-slider.min.js"></script>
 </head>
 
 <body bgcolor="#e9ebee">
@@ -57,14 +58,13 @@
         </section>
         <section class="main">
             <section id="TimeLine">
-                <figure id="container">
-                    <figure id="slideshow">
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/dada-voltaire-tinkerbot.jpg" alt>
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/happy-bot-tinkerbot.jpg" alt>
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/sgt-swift-tinkerbot.jpg" alt>
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/xf-3-fandicaff-tinkerbot.jpg" alt>
-                    </figure>
-                </figure>
+                <div id="container">
+                    <div class="slider" id="slideshow">
+                        <div class="slide">
+                            <img src="" alt="slide1" width="100%" />
+                        </div>
+                    </div>
+                </div>
             </section>
             <section id="Follower">
                 <section>
@@ -130,6 +130,13 @@
     </footer>
     <script src="main.js"></script>
     <script src="album.js"></script>
+    <script>
+        var slider = new airSlider({
+            autoPlay: true,
+            width: '100%',
+            height: '100%'
+        });
+    </script>
 </body>
 <?php
     } else {

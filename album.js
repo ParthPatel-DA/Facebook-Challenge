@@ -43,17 +43,21 @@
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                if(!(xmlhttp.responseText=="")){
-                    if(this.responseText){
-                        modelBG.style.display = "none";
-                        model.style.display = "none";
-                        // alert(this.responseText);
-                    }
+                var result = xmlhttp.responseText;
+                var resultArray = result.split("_");
+
+                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
+                    modelBG.style.display = "none";
+                    model.style.display = "none";
+                    // alert(this.responseText);
                     y.innerHTML = this.responseText;
                     modelBG.style.display = "none";
                     model.style.display = "none";
                     varTimeLine.style.display = "block";
                 }
+                modelBG.style.display = "none";
+                model.style.display = "none";
+                alert("Sorry, Couldn't fetch Images!");
             }
         }
         xmlhttp.open("GET", "get-images.php?slidealbumid="+node.value.trim(), true);
@@ -210,19 +214,19 @@
             return "";
         }
 
-    window.onload = function() {
-      imgs = document.getElementById('slideshow').children;
-      interval = 8000;
-      currentPic = 0;
-      imgs[currentPic].style.webkitAnimation = 'fadey '+interval+'ms';
-      imgs[currentPic].style.animation = 'fadey '+interval+'ms';
-      var infiniteLoop = setInterval(function(){
-        imgs[currentPic].removeAttribute('style');
-        if ( currentPic == imgs.length - 1) { currentPic = 0; } else { currentPic++; }
-        imgs[currentPic].style.webkitAnimation = 'fadey '+interval+'ms';
-        imgs[currentPic].style.animation = 'fadey '+interval+'ms';
-      }, interval);
-    }
+    // window.onload = function() {
+    //   imgs = document.getElementById('slideshow').children;
+    //   interval = 8000;
+    //   currentPic = 0;
+    //   imgs[currentPic].style.webkitAnimation = 'fadey '+interval+'ms';
+    //   imgs[currentPic].style.animation = 'fadey '+interval+'ms';
+    //   var infiniteLoop = setInterval(function(){
+    //     imgs[currentPic].removeAttribute('style');
+    //     if ( currentPic == imgs.length - 1) { currentPic = 0; } else { currentPic++; }
+    //     imgs[currentPic].style.webkitAnimation = 'fadey '+interval+'ms';
+    //     imgs[currentPic].style.animation = 'fadey '+interval+'ms';
+    //   }, interval);
+    // }
 
     function GoogleModel(){
         modelBG.style.display = "block";

@@ -20,23 +20,31 @@
         $user = $response->getGraphuser();
         
         if(isset($_REQUEST['slidealbumid'])){
-            $images = "";
-            $albumID = $_REQUEST['slidealbumid'];
-            $response = $fb->get('/'.$albumID.'/photos?limit=200', $accessToken);
-            $cnt=0;
-            $a = $response->getGraphEdge();
-            for($j=0;$j<count($a);$j++){
-                $response = $fb->get('/'.$a[$j]['id'].'?fields=link,name,id,created_time,images,picture', $accessToken);
-                $b=$response->getGraphNode()['images'][$j];
-                if($cnt==0){
-                    $images .= "<img src='".$b['source']."' alt style='animation: fadey 8000ms ease 0s 1 normal none running;' width='100%' height='100%'>";
-                    $cnt++;
+            try{
+                $images = "true_";
+                $albumID = $_REQUEST['slidealbumid'];
+                $response = $fb->get('/'.$albumID.'/photos?limit=200', $accessToken);
+                $cnt=0;
+                $a = $response->getGraphEdge();
+                for($j=0;$j<count($a);$j++){
+                    $response = $fb->get('/'.$a[$j]['id'].'?fields=link,name,id,created_time,images,picture', $accessToken);
+                    $b=$response->getGraphNode()['images'][$j];
+                    if($cnt==0){
+                        // $images .= "<img src='".$b['source']."' alt style='animation: fadey 8000ms ease 0s 1 normal none running;' width='100%' height='100%'>";
+                        $cnt++;
+                        $images .="<div class='slide active-slide fadeIn'><img src='".$b['source']."' alt='slide".$cnt."' width='100%' /></div>";
+                    }
+                    else{
+                        // $images .= "<img src='".$b['source']."' alt>";
+                        $cnt++;
+                        $images .="<div class='slide'><img src='".$b['source']."' alt='slide".$cnt."' width='100%' /></div>";
+                    }              
                 }
-                else{
-                    $images .= "<img src='".$b['source']."' alt>";
-                }              
             }
-            echo $images;
+            catch(Exception $e){
+                echo $images."<div class='controls'><button id='prev'>&lt;</button><button id='next'>&gt;</button></div>_fail";
+            }
+            echo $images."<div class='controls'><button id='prev'>&lt;</button><button id='next'>&gt;</button></div>";
         }
 
         if(isset($_REQUEST['downloadsingle'])){
