@@ -21,7 +21,7 @@
         
         if(isset($_REQUEST['slidealbumid'])){
             try{
-                $images = "true_";
+                $images = "true~";
                 $albumID = $_REQUEST['slidealbumid'];
                 $response = $fb->get('/'.$albumID.'/photos?limit=200', $accessToken);
                 $cnt=0;

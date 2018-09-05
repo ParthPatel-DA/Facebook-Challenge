@@ -44,20 +44,23 @@
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var result = xmlhttp.responseText;
-                var resultArray = result.split("_");
+                var resultArray = result.split("~");
 
                 if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
                     modelBG.style.display = "none";
                     model.style.display = "none";
-                    // alert(this.responseText);
-                    y.innerHTML = this.responseText;
+                    // alert(resultArray[1]);
+                    y.innerHTML = resultArray[1];
                     modelBG.style.display = "none";
                     model.style.display = "none";
                     varTimeLine.style.display = "block";
                 }
-                modelBG.style.display = "none";
-                model.style.display = "none";
-                alert("Sorry, Couldn't fetch Images!");
+                else {
+                    modelBG.style.display = "none";
+                    model.style.display = "none";
+                    alert("Sorry, Couldn't fetch Images!");
+                }
+                
             }
         }
         xmlhttp.open("GET", "get-images.php?slidealbumid="+node.value.trim(), true);
