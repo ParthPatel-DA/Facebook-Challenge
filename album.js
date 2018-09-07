@@ -60,7 +60,7 @@
                 else {
                     modelBG.style.display = "none";
                     model.style.display = "none";
-                    alert("Sorry, Couldn't fetch Images!");
+                    alert("Sorry, Couldn't fetch Images! Please try again after sometime.");
                 }
                 
             }
@@ -75,11 +75,16 @@
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var result = xmlhttp.responseText;
-                var resultArray = result.split("_");
+                var resultArray = result.split("~");
                 if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
                     modelBG.style.display = "none";
                     model.style.display = "none";
                     window.open(resultArray[1], '_blank');
+                }
+                else {
+                    alert("Couldn't download albums! Please try again after sometime.");
+                    modelBG.style.display = "none";
+                    model.style.display = "none";
                 }
             }
         }
@@ -93,7 +98,7 @@
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var result = xmlhttp.responseText;
-                var resultArray = result.split("_");
+                var resultArray = result.split("~");
                 if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
                     // for (i = 1; i < resultArray.length; i++) {
                         window.open(resultArray[1]+"_"+resultArray[2], '_blank');
@@ -102,7 +107,7 @@
                     model.style.display = "none";
                 }
                 else {
-                    alert("Couldn't download albums. Please try again.");
+                    alert("Couldn't download albums! Please try again after sometime.");
                     modelBG.style.display = "none";
                     model.style.display = "none";
                 }
@@ -123,11 +128,16 @@
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var result = xmlhttp.responseText;
-                var resultArray = result.split("_");
+                var resultArray = result.split("~");
                 if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
                     // for (i = 1; i < resultArray.length; i++) {
                         window.open(resultArray[1]+"_"+resultArray[2], '_blank');
                     // }
+                    modelBG.style.display = "none";
+                    model.style.display = "none";
+                }
+                else {
+                    alert("Couldn't download albums! Please try again after sometime.");
                     modelBG.style.display = "none";
                     model.style.display = "none";
                 }
@@ -150,7 +160,12 @@
                         model.style.display = "none";
                         alert("Album Successfully Uploaded.");
                     }
-                    
+   
+                }
+                else {
+                    alert("Couldn't upload albums! Please try again after sometime.");
+                    modelBG.style.display = "none";
+                    model.style.display = "none";
                 }
             }   
             xmlhttp.open("GET", "upload-album.php?uploadAlbum=" + albumid + "&albumName=" + name, true);
@@ -177,6 +192,11 @@
                         alert("Albums Successfully Uploaded.");
                     }
                 }
+                else {
+                    alert("Couldn't upload albums! Please try again after sometime.");
+                    modelBG.style.display = "none";
+                    model.style.display = "none";
+                }
             }
             xmlhttp.open("GET", "upload-album.php?uploadAlbums=" + albumID, true);
             xmlhttp.send();
@@ -201,6 +221,11 @@
                         model.style.display = "none";
                         alert("Albums Successfully Uploaded.");
                     }
+                }
+                else {
+                    alert("Couldn't upload albums! Please try again after sometime.");
+                    modelBG.style.display = "none";
+                    model.style.display = "none";
                 }
             }
             xmlhttp.open("GET", "upload-album.php?uploadAlbums=" + albumID, true);
