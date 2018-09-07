@@ -36,7 +36,7 @@
                     if($cnt==0){
                         // $images .= "<img src='".$b['source']."' alt style='animation: fadey 8000ms ease 0s 1 normal none running;' width='100%' height='100%'>";
                         $cnt++;
-                        $images .="<div class='slide active-slide fadeIn'><img src='".$image_path."' alt='slide".$cnt."' width='100%' /></div>";
+                        $images .="<div class='slide'><img src='".$image_path."' alt='slide".$cnt."' width='100%' /></div>";
                     }
                     else{
                         // $images .= "<img src='".$b['source']."' alt>";
@@ -59,9 +59,9 @@
                 }
             }
             catch(Exception $e){
-                echo $images."<div class='controls'><button id='prev'>&lt;</button><button id='next'>&gt;</button></div>_fail";
+                echo $images;
             }
-            echo $images."<div class='controls'><button id='prev'>&lt;</button><button id='next'>&gt;</button></div>";
+            echo $images;
         }
 
         if(isset($_REQUEST['downloadsingle'])){

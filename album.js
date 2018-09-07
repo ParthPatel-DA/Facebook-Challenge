@@ -55,6 +55,11 @@
                     modelBG.style.display = "none";
                     model.style.display = "none";
                     ModelSlier();
+                    var slider = new airSlider({
+                        autoPlay: true,
+                        width: '100%',
+                        height: '100%'
+                    });
                     // varTimeLine.style.display = "block";
                 }
                 else {
