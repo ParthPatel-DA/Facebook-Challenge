@@ -268,7 +268,7 @@ h1 {
     padding-top: 10%;
 }
 
-    #model-body {
+    #model > center > #model-body {
         background: #fff;
         color: #4267b2;
         width : 50%;
@@ -276,16 +276,16 @@ h1 {
         font-size: 30px;
     }
 
-        #model-body > i {
+        #model > center > #model-body > i {
             font-size: 60px;
         }
 
-        #model-body > span {
+        #model > center > #model-body > span {
             color: #8B0000;
             font-size: 15px;
         }
 
-        #model-body > input {
+        #model > center > #model-body > input {
             display: none;
             background: #4d90fe;
             border-color: #3079ed;
@@ -297,6 +297,27 @@ h1 {
             border-radius: 2px;
             color: #fff;
         }
+
+#model-slider {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    top:0;
+    padding-top: 4%;
+}
+
+    #model-slider > center > #model-body {
+        background: #fff;
+        color: #4267b2;
+        width: 90%;
+        height: 600px;
+        padding: 20px 20px;
+        padding-top: 40px;
+        font-size: 30px;
+        cursor: pointer;
+    }
 
 footer {
     background-color: #657786;

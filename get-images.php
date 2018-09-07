@@ -39,7 +39,7 @@
                         $cnt++;
                         $images .="<div class='slide'><img src='".$b['source']."' alt='slide".$cnt."' width='100%' /></div>";
                     }              
-                }
+                }                
             }
             catch(Exception $e){
                 echo $images."<div class='controls'><button id='prev'>&lt;</button><button id='next'>&gt;</button></div>_fail";

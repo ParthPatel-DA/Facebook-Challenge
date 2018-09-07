@@ -1,6 +1,7 @@
 
     var modelBG = document.getElementById("model-background");
     var model = document.getElementById("model");
+    var modelSlider = document.getElementById("model-slider");
     function cancelFullScreen() {
         if (document.cancelFullScreen) {
             document.cancelFullScreen();
@@ -27,17 +28,17 @@
             }
         }
 
-        var elementcontainer = document.getElementById("container");
-        if (elementcontainer.requestFullScreen) {
-            elementcontainer.requestFullScreen();
-        } else if (elementcontainer.webkitRequestFullScreen) {
-            elementcontainer.webkitRequestFullScreen();
-        } else if (elementcontainer.mozRequestFullScreen) {
-            elementcontainer.mozRequestFullScreen();
-        }
+        // var elementcontainer = document.getElementById("container");
+        // if (elementcontainer.requestFullScreen) {
+        //     elementcontainer.requestFullScreen();
+        // } else if (elementcontainer.webkitRequestFullScreen) {
+        //     elementcontainer.webkitRequestFullScreen();
+        // } else if (elementcontainer.mozRequestFullScreen) {
+        //     elementcontainer.mozRequestFullScreen();
+        // }
     
-        elementcontainer.setAttribute("onclick", "cancelFullScreen()");
-        var varTimeLine = document.getElementById("TimeLine");
+        // elementcontainer.setAttribute("onclick", "cancelFullScreen()");
+        // var varTimeLine = document.getElementById("mode-");
         var y = document.getElementById("slideshow");
         // y.innerHTML = "";
         var xmlhttp = new XMLHttpRequest();
@@ -53,7 +54,8 @@
                     y.innerHTML = resultArray[1];
                     modelBG.style.display = "none";
                     model.style.display = "none";
-                    varTimeLine.style.display = "block";
+                    ModelSlier();
+                    // varTimeLine.style.display = "block";
                 }
                 else {
                     modelBG.style.display = "none";
@@ -263,6 +265,11 @@
         document.getElementById("modelGoogleLogin").style.display = "none";
     }
 
+    function ModelSlier(){
+        modelBG.style.display = "block";
+        modelSlider.style.display = "block";
+    }
+
     function Model(){
         modelBG.style.display = "block";
         model.style.display = "block";
@@ -270,4 +277,9 @@
         document.getElementById("modelDes").innerHTML = "Please wait while feaching Albums";
         document.getElementById("modelMsg").style.display = "block";
         document.getElementById("modelGoogleLogin").style.display = "none";
+    }
+
+    function CloseSilder(){
+        modelBG.style.display = "none";
+        modelSlider.style.display = "none";
     }

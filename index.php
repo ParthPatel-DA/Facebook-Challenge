@@ -59,11 +59,11 @@
         <section class="main">
             <section id="TimeLine">
                 <div id="container">
-                    <div class="slider" id="slideshow">
+                    <!-- <div class="slider" id="slideshow">
                         <div class="slide">
                             <img src="" alt="slide1" width="100%" />
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </section>
             <section id="Follower">
@@ -123,6 +123,16 @@
             <label id="modelDes">Please wait while downloading Albums</label><br><br>
             <span id="modelMsg">It may take some time. Don't refresh page. This pop-up automatically close.</span>
             <input id="modelGoogleLogin" type="button" value="Google Login" onclick="document.location.href='googleDrive-login.php'">
+        </section></center>
+    </section>
+    <section id="model-slider">
+        <center><section id="model-body">
+            <a style="float: right;z-index: 10;margin-top: -30px;font-size: 20px;/* color: #fff; */" onclick="CloseSilder();">Close</a>
+            <div class="slider" id="slideshow">
+                <div class="slide">
+                    <img src="" alt="slide1" width="100%" />
+                </div>
+            </div>
         </section></center>
     </section>
     <footer>
