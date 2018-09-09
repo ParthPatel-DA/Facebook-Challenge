@@ -160,17 +160,16 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText=="true"){
+                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
                         modelBG.style.display = "none";
                         model.style.display = "none";
                         alert("Album Successfully Uploaded.");
                     }
-   
-                }
-                else {
-                    alert("Couldn't upload albums! Please try again after sometime.");
-                    modelBG.style.display = "none";
-                    model.style.display = "none";
+                    else {
+                        alert("Couldn't upload albums! Please try again after sometime.");
+                        modelBG.style.display = "none";
+                        model.style.display = "none";
+                    }
                 }
             }   
             xmlhttp.open("GET", "upload-album.php?uploadAlbum=" + albumid + "&albumName=" + name, true);
@@ -191,16 +190,16 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText=="true"){
+                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
                         modelBG.style.display = "none";
                         model.style.display = "none";
                         alert("Albums Successfully Uploaded.");
                     }
-                }
-                else {
-                    alert("Couldn't upload albums! Please try again after sometime.");
-                    modelBG.style.display = "none";
-                    model.style.display = "none";
+                    else {
+                        alert("Couldn't upload albums! Please try again after sometime.");
+                        modelBG.style.display = "none";
+                        model.style.display = "none";
+                    }
                 }
             }
             xmlhttp.open("GET", "upload-album.php?uploadAlbums=" + albumID, true);
@@ -221,16 +220,16 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText=="true"){
+                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
                         modelBG.style.display = "none";
                         model.style.display = "none";
                         alert("Albums Successfully Uploaded.");
                     }
-                }
-                else {
-                    alert("Couldn't upload albums! Please try again after sometime.");
-                    modelBG.style.display = "none";
-                    model.style.display = "none";
+                    else {
+                        alert("Couldn't upload albums! Please try again after sometime.");
+                        modelBG.style.display = "none";
+                        model.style.display = "none";
+                    }
                 }
             }
             xmlhttp.open("GET", "upload-album.php?uploadAlbums=" + albumID, true);

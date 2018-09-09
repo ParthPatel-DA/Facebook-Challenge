@@ -1,10 +1,6 @@
 <?php
     require_once 'lib/Facebook/autoload.php';
 
-    if (!session_id()) 
-    {
-        session_start(); 
-    }
     $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
     $FB = new \Facebook\Facebook([
         'app_id' => $fb_json["app-id"],
@@ -13,6 +9,9 @@
         ]);
 
         $helper = $FB->getRedirectLoginHelper();
-        $redirectURL   = 'https://localhost/RTCamp/';
+        if(isset($_GET['state'])){
+            $helper->getPersistentDataHandler()->set('state',$_GET['state']);
+        }
+        // $redirectURL   = 'https://localhost/RTCamp/';
 
 ?>

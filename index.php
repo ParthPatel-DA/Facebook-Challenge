@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Albums - rtCamp Facebook Assignment</title>
+    <link rel="shortcut icon" href="https://static.xx.fbcdn.net/rsrc.php/yo/r/iRmz9lCMBD2.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -20,7 +21,7 @@
         if(!isset($_SESSION['access_token'])){
             header("Location: login.php");
         }
-        $accessToken =  $_SESSION['access_token'];  
+        $accessToken =  $_SESSION['access_token'];
         $logoutURL = $helper->getLogoutUrl($accessToken, $redirectURL.'logout.php');
         if (isset($accessToken)) 
         {
@@ -150,7 +151,8 @@
 </body>
 <?php
     } else {
-        $loginUrl = $helper->getLoginUrl('https://localhost/Facebook-Challenge/index.php', $permissions);
+        $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
+        $loginUrl = $helper->getLoginUrl($fb_json["location"].'Facebook-Challenge/index.php', $permissions);
     }
 ?>
 </html>

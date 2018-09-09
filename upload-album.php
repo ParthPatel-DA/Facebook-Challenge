@@ -48,13 +48,17 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
     $service = new Google_Service_Drive($client);
 
 
-    $allImages = getAllAlbumImages($fb, $albumID);
+    // $allImages = getAllAlbumImages($fb, $albumID);
+    $response = $fb->get(
+        '/'.$albumID.'/photos?limit=100',
+        $_SESSION['access_token']
+    );
+    $allImages = $response->getGraphEdge();
 
     $masterFolderName = "Facebook_".$_SESSION['Name']."_Albums";
-
+    ini_set('max_execution_time', 0);
     $masterFolder = getFolderExistsCreate($service, $masterFolderName, $folderDesc, "NULL");
     $albumFolder = getFolderExistsCreate($service, $albumName, $folderDesc, $masterFolder);
-    
     for ($i=0; $i < count($allImages); $i++) {
         
         $response = $fb->get(
@@ -63,7 +67,7 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
         );
         $imageDetails = $response->getGraphNode();
         // $imageDetails = getImageDetails($fb, $allImages[$i]);
-        $file_tmp_name = $imageDetails['images'][4]['source'];
+        $file_tmp_name = $imageDetails['images'][0]['source'];
         
         // Set the file metadata for drive
         $mimeType = 'image/jpeg';
@@ -72,6 +76,29 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
 
         // Call the insert function with parameters listed below
         $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
+    }
+    ini_set('max_execution_time', 0);
+    $nextImg = $fb->next($allImages);
+    $data_json=json_decode($nextImg, true);
+    if($data_json != ""){
+        foreach($data_json as $img){
+            
+            $response = $fb->get(
+                '/'.$img['id'].'?fields=name,id,created_time,images',
+                $_SESSION['access_token']
+            );
+            $imageDetails = $response->getGraphNode();
+            // $imageDetails = getImageDetails($fb, $allImages[$i]);
+            $file_tmp_name = $imageDetails['images'][0]['source'];
+            
+            // Set the file metadata for drive
+            $mimeType = 'image/jpeg';
+            $title = $i.".jpg";
+            $description = "Facebook Album Image";
+            $i++;
+            // Call the insert function with parameters listed below
+            $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
+        }
     }
     echo "true";
 }
@@ -110,10 +137,15 @@ if (isset($_REQUEST['uploadAlbums'])) {
     foreach ($arrAlbums as $album) {
         $album_IDs_Names = explode('-', $album);
 
-        $allImages = getAllAlbumImages($fb, $album_IDs_Names[0]);
+        // $allImages = getAllAlbumImages($fb, $album_IDs_Names[0]);
+        $response = $fb->get(
+            '/'.$albumID.'/photos?limit=100',
+            $_SESSION['access_token']
+        );
+        $allImages = $response->getGraphEdge();
 
         $masterFolderName = "Facebook_".$_SESSION['Name']."_Albums";
-
+        ini_set('max_execution_time', 0);
         $masterFolder = getFolderExistsCreate($service, $masterFolderName, $folderDesc, "NULL");
         $albumFolder = getFolderExistsCreate($service, $album_IDs_Names[1], $folderDesc, $masterFolder);
         for ($i=0; $i < count($allImages); $i++) {
@@ -123,7 +155,7 @@ if (isset($_REQUEST['uploadAlbums'])) {
             );
             $imageDetails = $response->getGraphNode();
             // $imageDetails = getImageDetails($fb, $allImages[$i]);
-            $file_tmp_name = $imageDetails['images'][4]['source'];
+            $file_tmp_name = $imageDetails['images'][0]['source'];
 
             // Set the file metadata for drive
             $mimeType = 'image/jpeg';
@@ -133,6 +165,28 @@ if (isset($_REQUEST['uploadAlbums'])) {
             // Call the insert function with parameters listed below
             $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
         }
+        ini_set('max_execution_time', 0);
+        $nextImg = $fb->next($allImages);
+        $data_json=json_decode($nextImg, true);
+        if($data_json != ""){
+            foreach($data_json as $img){
+                $response = $fb->get(
+                    '/'.$img['id'].'?fields=name,id,created_time,images',
+                    $_SESSION['access_token']
+                );
+                $imageDetails = $response->getGraphNode();
+                // $imageDetails = getImageDetails($fb, $allImages[$i]);
+                $file_tmp_name = $imageDetails['images'][0]['source'];
+                
+                // Set the file metadata for drive
+                $mimeType = 'image/jpeg';
+                $title = $i.".jpg";
+                $description = "Facebook Album Image";
+                $i++;
+                // Call the insert function with parameters listed below
+                $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
+            }
+        }
     }
     echo "true";
 }
@@ -141,7 +195,7 @@ function getAllAlbumImages($fb, $albumID)
 {
     try {
         $response = $fb->get(
-            '/'.$albumID.'/photos?limit=200',
+            '/'.$albumID.'/photos?limit=100',
             $_SESSION['access_token']
         );
     } catch (Facebook\Exceptions\FacebookResponseException $e) {
@@ -152,7 +206,7 @@ function getAllAlbumImages($fb, $albumID)
         exit;
     }
     $allImages = $response->getGraphEdge();
-
+    
     return $allImages;
 }
 ?>

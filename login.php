@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Login - rtCamp Facebook Assignment</title>
+    <link rel="shortcut icon" href="https://static.xx.fbcdn.net/rsrc.php/yo/r/iRmz9lCMBD2.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
@@ -20,8 +21,9 @@
                     <?php
                         require_once('fb-config.php');
                         $permissions = ['email,user_photos']; // Optional permissions
-                        $loginUrl = $helper->getLoginUrl('https://localhost/Facebook-Challenge/fb-callback.php', $permissions);
-                    
+                        $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
+                        $loginUrl = $helper->getLoginUrl($fb_json["location"].'Facebook-Challenge/fb-callback.php', $permissions);
+                        
                         echo '<a href="' . htmlspecialchars($loginUrl) . '" style="background: #4267b2; color: #fff; text-decoration: none; font-size: 20px; font-weight: bolder; padding: 10px 30px; margin-top: 50px;">Login With Facebook</a>';
                     ?>
                     
