@@ -43,8 +43,7 @@ PHP
 
 # Deployment Guide:
 
-    I deployed my website on server but I am facing problem of cookie. So, I talk with placement cell of my college. They suggested me to put instruction on GitHub.
-    So I gave instruction how to deploy website on PHP local server. Please check it locally.
+    I gave instruction how to deploy website on PHP local server.
     1.	First go to https://github.com/ParthPatel-DA/Facebook-Challenge link and click on “Clone and Download” button you will get zip file.
     2.	Then, unzip folder at “/xampp/htdocs/Facebook-Challenge” or “wamp/www/Facebook-Challenge”.
     3.	Folder must be named with “Facebook-Challenge” because I setup facebook app and google app redirect by this name.
