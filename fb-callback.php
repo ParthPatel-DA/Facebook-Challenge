@@ -28,6 +28,6 @@
     header('location:index.php');
 
     $_SESSION['access_token'] = (string)$accessToken;
-    require_once 'login.php';
+    // require_once 'login.php';
 
 ?>

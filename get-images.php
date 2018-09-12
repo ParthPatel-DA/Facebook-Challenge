@@ -195,6 +195,6 @@
 
     } else {
         $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
-        $loginUrl = $helper->getLoginUrl($fb_json["location"].'Facebook-Challenge/index.php', $permissions);
+        $loginUrl = $helper->getLoginUrl($fb_json["location"].'index.php', $permissions);
     }
 ?>

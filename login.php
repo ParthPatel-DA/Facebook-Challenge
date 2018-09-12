@@ -20,9 +20,11 @@
                 <div style="margin-top: 90px;">
                     <?php
                         require_once('fb-config.php');
+                        session_start();
+                        unset($_SESSION['access_token']);
                         $permissions = ['email,user_photos']; // Optional permissions
                         $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
-                        $loginUrl = $helper->getLoginUrl($fb_json["location"].'Facebook-Challenge/fb-callback.php', $permissions);
+                        $loginUrl = $helper->getLoginUrl($fb_json["location"].'fb-callback.php', $permissions);
                         
                         echo '<a href="' . htmlspecialchars($loginUrl) . '" style="background: #4267b2; color: #fff; text-decoration: none; font-size: 20px; font-weight: bolder; padding: 10px 30px; margin-top: 50px;">Login With Facebook</a>';
                     ?>
