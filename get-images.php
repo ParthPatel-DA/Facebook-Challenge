@@ -30,7 +30,7 @@
                 $response = $fb->get('/'.$albumID.'/photos?limit=100', $accessToken);
                 $cnt=0;
                 $a = $response->getGraphEdge();
-                ini_set('max_execution_time', 300);
+                // ini_set('max_execution_time', 300);
                 for($j=0;$j<count($a);$j++){
                     $response = $fb->get('/'.$a[$j]['id'].'?fields=images', $accessToken);
                     $graphNode = $response->getGraphNode();
@@ -82,7 +82,7 @@
                     unlink('Downloads/'.$album_id.'.zip');
                 }
                 $zip->open('Downloads/'.$album_id.'.zip', ZipArchive::CREATE);
-                ini_set('max_execution_time', 300);
+                // ini_set('max_execution_time', 300);
                 for($j=0;$j<count($graphEdge);$j++)
                 {
                     $res = $fb->get('/'.$graphEdge[$j]['id'].'?fields=images',$accessToken);
@@ -125,7 +125,7 @@
                 $zip=new ZipArchive();
                 try{
                     $zip->open('Downloads/'.$user['id']."_".$user['name'].'.zip', ZipArchive::CREATE);
-                    ini_set('max_execution_time', 300);
+                    // ini_set('max_execution_time', 300);
                     $zip->addEmptyDir($user['albums'][$i]['name']);
                     for($j=0;$j<count($graphEdge);$j++)
                     {
@@ -173,7 +173,7 @@
                 $zip=new ZipArchive();
                 try{
                     $zip->open('Downloads/'.$user['id']."_".$user['name'].'.zip', ZipArchive::CREATE);
-                    ini_set('max_execution_time', 300);
+                    // ini_set('max_execution_time', 300);
                     $zip->addEmptyDir($album_id);
                     for($j=0;$j<count($graphEdge);$j++)
                     {
