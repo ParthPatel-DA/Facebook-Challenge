@@ -81,7 +81,7 @@
             if (this.readyState == 4 && this.status == 200) {
                 var result = xmlhttp.responseText;
                 var resultArray = result.split("~");
-                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
+                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1 && this.responseText.search('true') != -1) {
                     modelBG.style.display = "none";
                     model.style.display = "none";
                     window.open(resultArray[1], '_blank');
@@ -104,7 +104,7 @@
             if (this.readyState == 4 && this.status == 200) {
                 var result = xmlhttp.responseText;
                 var resultArray = result.split("~");
-                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
+                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1 && this.responseText.search('true') != -1) {
                     // for (i = 1; i < resultArray.length; i++) {
                         window.open(resultArray[1]+"_"+resultArray[2], '_blank');
                     // }
@@ -134,7 +134,7 @@
             if (this.readyState == 4 && this.status == 200) {
                 var result = xmlhttp.responseText;
                 var resultArray = result.split("~");
-                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
+                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1 && this.responseText.search('true') != -1) {
                     // for (i = 1; i < resultArray.length; i++) {
                         window.open(resultArray[1]+"_"+resultArray[2], '_blank');
                     // }
@@ -160,7 +160,7 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
+                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1 && this.responseText.search('true') != -1) {
                         modelBG.style.display = "none";
                         model.style.display = "none";
                         alert("Album Successfully Uploaded.");
@@ -190,7 +190,7 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
+                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1 && this.responseText.search('true') != -1) {
                         modelBG.style.display = "none";
                         model.style.display = "none";
                         alert("Albums Successfully Uploaded.");
@@ -220,7 +220,7 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
+                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1 && this.responseText.search('true') != -1) {
                         modelBG.style.display = "none";
                         model.style.display = "none";
                         alert("Albums Successfully Uploaded.");
