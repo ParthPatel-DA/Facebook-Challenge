@@ -1,5 +1,8 @@
 <?php
-
+if (!session_id()) 
+{
+    session_start(); 
+}
 require_once 'fb-config.php';
 require_once 'lib/google-api-php-client/src/Google/Client.php';
 require_once 'lib/google-api-php-client/src/Google/Service/Oauth2.php';
@@ -31,7 +34,7 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
     // Get your app info from JSON downloaded from google dev console
     $CLIENT_ID = $json['web']['client_id'];
     $CLIENT_SECRET = $json['web']['client_secret'];
-    $REDIRECT_URI = $json['web']['redirect_uris'][0];
+    $REDIRECT_URI = $json['web']['redirect_uris'][2];
 
     // Create a new Client
     $client = new Google_Client();
@@ -116,7 +119,7 @@ if (isset($_REQUEST['uploadAlbums'])) {
     
     $CLIENT_ID = $json['web']['client_id'];
     $CLIENT_SECRET = $json['web']['client_secret'];
-    $REDIRECT_URI = $json['web']['redirect_uris'][0];
+    $REDIRECT_URI = $json['web']['redirect_uris'][2];
 
     // Create a new Client
     $client = new Google_Client();
@@ -206,7 +209,7 @@ function getAllAlbumImages($fb, $albumID)
         exit;
     }
     $allImages = $response->getGraphEdge();
-    
+
     return $allImages;
 }
 ?>

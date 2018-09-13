@@ -1,3 +1,9 @@
+<?php
+    if (!session_id()) 
+    {
+        session_start(); 
+    }
+?>
 <!DOCTYPE html>
 <html>
 
@@ -15,27 +21,28 @@
 
 <body bgcolor="#e9ebee">
     <?php
+        require_once('googleDrive-config.php');
         require_once('fb-config.php');
         require_once('upload-album.php');
         $permissions = ['user_photos'];
         if(!isset($_SESSION['access_token'])){
             header("Location: login.php");
         }
-        $accessToken =  $_SESSION['access_token'];
-        $logoutURL = $helper->getLogoutUrl($accessToken, $redirectURL.'logout.php');
-        if (isset($accessToken)) 
-        {
-            $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
-            $fb = new Facebook\Facebook([
-            'app_id' => $fb_json["app-id"], 
-            'app_secret' => $fb_json["app-secret"],
-            'default_graph_version' => 'v2.2',
-            'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : $fb_json["app-secret"]
-            ]);
-        
-            $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
-            $user = $response->getGraphuser();
-            $_SESSION['Name'] = $user['name'];
+        try {
+            $accessToken =  $_SESSION['access_token'];
+            if (isset($accessToken)) 
+            {
+                $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
+                $fb = new Facebook\Facebook([
+                'app_id' => $fb_json["app-id"], 
+                'app_secret' => $fb_json["app-secret"],
+                'default_graph_version' => 'v2.2',
+                'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : $fb_json["app-secret"]
+                ]);
+            
+                $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
+                $user = $response->getGraphuser();
+                $_SESSION['Name'] = $user['name'];
     ?>
     <section class="profile-header-box">
         <label>rtCamp Facebook Assignment</label>
@@ -137,7 +144,7 @@
         </section></center>
     </section>
     <footer>
-        &copy; 2018 rtCamp ALL RIGHTS RESERVED
+        &copy; 2018 Parth Patel. ALL RIGHTS RESERVED
     </footer>
     <script src="main.js"></script>
     <script src="album.js"></script>
@@ -150,9 +157,13 @@
     </script>
 </body>
 <?php
-    } else {
-        $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
-        $loginUrl = $helper->getLoginUrl($fb_json["location"].'index.php', $permissions);
-    }
+            } else {
+                $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
+                $loginUrl = $helper->getLoginUrl($fb_json["location"].'index.php', $permissions);
+                // $loginUrl = $helper->getLoginUrl('https://parthpatel454500.000webhostapp.com/index.php', $permissions);
+            }
+        } catch(Facebook\Exceptions\FacebookResponseException $e){
+            echo "<script>alert('Somthing want wrong! Please try again after sometime.');</script>";
+        }
 ?>
 </html>

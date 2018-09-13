@@ -1,5 +1,8 @@
 <?php
-
+    if (!session_id()) 
+    {
+        session_start(); 
+    }
     require_once 'fb-config.php';
     try {
         $accessToken = $helper->getAccessToken();
@@ -27,7 +30,7 @@
     $_SESSION['access_token']=(string)$accessToken;
     header('location:index.php');
 
-    $_SESSION['access_token'] = (string)$accessToken;
+    // $_SESSION['access_token'] = (string)$accessToken;
     // require_once 'login.php';
 
 ?>
