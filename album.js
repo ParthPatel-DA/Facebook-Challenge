@@ -47,7 +47,7 @@
                 var result = xmlhttp.responseText;
                 var resultArray = result.split("~");
 
-                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
+                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1 && this.responseText.search('true') != -1) {
                     modelBG.style.display = "none";
                     model.style.display = "none";
                     // alert(resultArray[1]);
