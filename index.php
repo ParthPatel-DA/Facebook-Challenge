@@ -155,8 +155,7 @@
             height: '100%'
         });
     </script>
-</body>
-<?php
+    <?php
             } else {
                 $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
                 $loginUrl = $helper->getLoginUrl($fb_json["location"].'index.php', $permissions);
@@ -165,5 +164,6 @@
         } catch(Facebook\Exceptions\FacebookResponseException $e){
             echo "<script>alert('Somthing want wrong! Please try again after sometime.');</script>";
         }
-?>
+    ?>
+</body>
 </html>
