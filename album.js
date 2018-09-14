@@ -43,31 +43,37 @@
         // y.innerHTML = "";
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var result = xmlhttp.responseText;
-                var resultArray = result.split("~");
-
-                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1 && this.responseText.search('true') != -1) {
-                    modelBG.style.display = "none";
-                    model.style.display = "none";
-                    // alert(resultArray[1]);
-                    y.innerHTML = resultArray[1];
-                    modelBG.style.display = "none";
-                    model.style.display = "none";
-                    ModelSlier();
-                    var slider = new airSlider({
-                        autoPlay: true,
-                        width: '100%',
-                        height: '100%'
-                    });
-                    // varTimeLine.style.display = "block";
-                }
-                else {
+            if (this.readyState == 4){
+                if(this.status == 200) {
+                    if(this.responseText.search('true') != -1) {
+                        var result = xmlhttp.responseText;
+                        var resultArray = result.split("~");
+                        if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                            // alert(resultArray[1]);
+                            y.innerHTML = resultArray[1];
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                            ModelSlier();
+                            var slider = new airSlider({
+                                autoPlay: true,
+                                width: '100%',
+                                height: '100%'
+                            });
+                            // varTimeLine.style.display = "block";
+                        }
+                        else {
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                            alert("Sorry, Couldn't fetch Images! Please try again after sometime.");
+                        }
+                    }
+                }else{
                     modelBG.style.display = "none";
                     model.style.display = "none";
                     alert("Sorry, Couldn't fetch Images! Please try again after sometime.");
                 }
-                
             }
         }
         xmlhttp.open("GET", "get-images.php?slidealbumid="+node.value.trim(), true);
@@ -78,15 +84,23 @@
         ModelDownload();
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var result = xmlhttp.responseText;
-                var resultArray = result.split("~");
-                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1 && this.responseText.search('true') != -1) {
-                    modelBG.style.display = "none";
-                    model.style.display = "none";
-                    window.open(resultArray[1], '_blank');
-                }
-                else {
+            if (this.readyState == 4){ 
+                if(this.status == 200) {
+                    if(this.responseText.search('true') != -1) {
+                        var result = xmlhttp.responseText;
+                        var resultArray = result.split("~");
+                        if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                            window.open(resultArray[1], '_blank');
+                        }
+                        else {
+                            alert("Couldn't download albums! Please try again after sometime.");
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                        }
+                    }
+                } else {
                     alert("Couldn't download albums! Please try again after sometime.");
                     modelBG.style.display = "none";
                     model.style.display = "none";
@@ -101,17 +115,25 @@
         ModelDownload();
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var result = xmlhttp.responseText;
-                var resultArray = result.split("~");
-                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1 && this.responseText.search('true') != -1) {
-                    // for (i = 1; i < resultArray.length; i++) {
-                        window.open(resultArray[1]+"_"+resultArray[2], '_blank');
-                    // }
-                    modelBG.style.display = "none";
-                    model.style.display = "none";
-                }
-                else {
+            if (this.readyState == 4){ 
+                if(this.status == 200) {
+                    if(this.responseText.search('true') != -1) {
+                        var result = xmlhttp.responseText;
+                        var resultArray = result.split("~");
+                        if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
+                            // for (i = 1; i < resultArray.length; i++) {
+                                window.open(resultArray[1], '_blank');
+                            // }
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                        }
+                        else {
+                            alert("Couldn't download albums! Please try again after sometime.");
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                        }
+                    }
+                } else {
                     alert("Couldn't download albums! Please try again after sometime.");
                     modelBG.style.display = "none";
                     model.style.display = "none";
@@ -131,17 +153,25 @@
         }
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var result = xmlhttp.responseText;
-                var resultArray = result.split("~");
-                if(resultArray[0] === 'true' || resultArray[0].search('true') != -1 && this.responseText.search('true') != -1) {
-                    // for (i = 1; i < resultArray.length; i++) {
-                        window.open(resultArray[1]+"_"+resultArray[2], '_blank');
-                    // }
-                    modelBG.style.display = "none";
-                    model.style.display = "none";
-                }
-                else {
+            if (this.readyState == 4){ 
+                if(this.status == 200) {
+                    if(this.responseText.search('true') != -1) {
+                        var result = xmlhttp.responseText;
+                        var resultArray = result.split("~");
+                        if(resultArray[0] === 'true' || resultArray[0].search('true') != -1) {
+                            // for (i = 1; i < resultArray.length; i++) {
+                                window.open(resultArray[1], '_blank');
+                            // }
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                        }
+                        else {
+                            alert("Couldn't download albums! Please try again after sometime.");
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                        }
+                    }
+                } else {
                     alert("Couldn't download albums! Please try again after sometime.");
                     modelBG.style.display = "none";
                     model.style.display = "none";
@@ -160,7 +190,7 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1 && this.responseText.search('true') != -1) {
+                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
                         modelBG.style.display = "none";
                         model.style.display = "none";
                         alert("Album Successfully Uploaded.");
@@ -190,7 +220,7 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1 && this.responseText.search('true') != -1) {
+                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
                         modelBG.style.display = "none";
                         model.style.display = "none";
                         alert("Albums Successfully Uploaded.");
@@ -220,7 +250,7 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1 && this.responseText.search('true') != -1) {
+                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
                         modelBG.style.display = "none";
                         model.style.display = "none";
                         alert("Albums Successfully Uploaded.");
