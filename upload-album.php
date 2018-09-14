@@ -79,7 +79,7 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
 
         // Call the insert function with parameters listed below
         $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
-        sleep(0.1);
+        sleep(0.3);
     }
     ini_set('max_execution_time', 0);
     $nextImg = $fb->next($allImages);
@@ -102,7 +102,7 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
             $i++;
             // Call the insert function with parameters listed below
             $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
-            sleep(0.1);
+            sleep(0.3);
         }
     }
     echo "true";
@@ -169,7 +169,7 @@ if (isset($_REQUEST['uploadAlbums'])) {
 
             // Call the insert function with parameters listed below
             $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
-            sleep(0.1);
+            sleep(0.3);
         }
         ini_set('max_execution_time', 0);
         $nextImg = $fb->next($allImages);
@@ -191,7 +191,7 @@ if (isset($_REQUEST['uploadAlbums'])) {
                 $i++;
                 // Call the insert function with parameters listed below
                 $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
-                sleep(0.1);
+                sleep(0.3);
             }
         }
     }
