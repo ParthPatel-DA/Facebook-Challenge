@@ -69,6 +69,11 @@
                             alert("Sorry, Couldn't fetch Images! Please try again after sometime.");
                         }
                     }
+                    else {
+                        modelBG.style.display = "none";
+                        model.style.display = "none";
+                        alert("Sorry, Couldn't fetch Images! Please try again after sometime.");
+                    }
                 }else{
                     modelBG.style.display = "none";
                     model.style.display = "none";
@@ -99,6 +104,11 @@
                             modelBG.style.display = "none";
                             model.style.display = "none";
                         }
+                    }
+                    else {
+                        alert("Couldn't download albums! Please try again after sometime.");
+                        modelBG.style.display = "none";
+                        model.style.display = "none";
                     }
                 } else {
                     alert("Couldn't download albums! Please try again after sometime.");
@@ -132,6 +142,11 @@
                             modelBG.style.display = "none";
                             model.style.display = "none";
                         }
+                    }
+                    else {
+                        alert("Couldn't download albums! Please try again after sometime.");
+                        modelBG.style.display = "none";
+                        model.style.display = "none";
                     }
                 } else {
                     alert("Couldn't download albums! Please try again after sometime.");
@@ -171,6 +186,11 @@
                             model.style.display = "none";
                         }
                     }
+                    else {
+                        alert("Couldn't download albums! Please try again after sometime.");
+                        modelBG.style.display = "none";
+                        model.style.display = "none";
+                    }
                 } else {
                     alert("Couldn't download albums! Please try again after sometime.");
                     modelBG.style.display = "none";
@@ -189,11 +209,18 @@
         } else {
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
-                        modelBG.style.display = "none";
-                        model.style.display = "none";
-                        alert("Album Successfully Uploaded.");
+                if (this.readyState == 4) { 
+                    if(this.status == 200) {
+                        if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                            alert("Album Successfully Uploaded.");
+                        }
+                        else {
+                            alert("Couldn't upload albums! Please try again after sometime.");
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                        }
                     }
                     else {
                         alert("Couldn't upload albums! Please try again after sometime.");
@@ -219,11 +246,18 @@
         } else {
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
-                        modelBG.style.display = "none";
-                        model.style.display = "none";
-                        alert("Albums Successfully Uploaded.");
+                if (this.readyState == 4) { 
+                    if(this.status == 200) {
+                        if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                            alert("Albums Successfully Uploaded.");
+                        }
+                        else {
+                            alert("Couldn't upload albums! Please try again after sometime.");
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                        }
                     }
                     else {
                         alert("Couldn't upload albums! Please try again after sometime.");
@@ -249,13 +283,19 @@
         } else {
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
-                        modelBG.style.display = "none";
-                        model.style.display = "none";
-                        alert("Albums Successfully Uploaded.");
-                    }
-                    else {
+                if (this.readyState == 4) { 
+                    if(this.status == 200) {
+                        if(xmlhttp.responseText === 'true' || xmlhttp.responseText.search('true') != -1) {
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                            alert("Albums Successfully Uploaded.");
+                        }
+                        else {
+                            alert("Couldn't upload albums! Please try again after sometime.");
+                            modelBG.style.display = "none";
+                            model.style.display = "none";
+                        }
+                    } else {
                         alert("Couldn't upload albums! Please try again after sometime.");
                         modelBG.style.display = "none";
                         model.style.display = "none";
