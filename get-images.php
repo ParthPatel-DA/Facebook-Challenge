@@ -41,13 +41,11 @@
                         // $images .= "<img src='".$b['source']."' alt style='animation: fadey 8000ms ease 0s 1 normal none running;' width='100%' height='100%'>";
                         $cnt++;
                         $images .="<div class='slide'><img src='".$image_path."' alt='slide".$cnt."' width='100%' /></div>";
-                        sleep(0.3);
                     }
                     else{
                         // $images .= "<img src='".$b['source']."' alt>";
                         $cnt++;
                         $images .="<div class='slide'><img src='".$image_path."' alt='slide".$cnt."' width='100%' /></div>";
-                        sleep(0.3);
                     }              
                 }
                 $nextImg = $fb->next($a);
@@ -61,7 +59,6 @@
                         // $b=$response->getGraphNode()['images'][$j];
                         $cnt++;
                         $images .="<div class='slide'><img src='".$image_path."' alt='slide".$cnt."' width='100%' /></div>";
-                        sleep(0.3);
                     }
                 }
             }
@@ -90,7 +87,6 @@
                     $path=$graphNode['images'][0]; 
                     $image_path=$path['source'];
                     $zip->addFromString($j.'.jpg', file_get_contents($image_path));
-                    sleep(0.3);
                 }
                 $nextImg = $fb->next($graphEdge);
                 $data_json=json_decode($nextImg, true);
@@ -102,7 +98,6 @@
                         $image_path=$path['source'];
                         $zip->addFromString($j.'.jpg', file_get_contents($image_path));
                         $j++;
-                        sleep(0.3);
                     }
                 }
                 $zip->close();
@@ -134,7 +129,6 @@
                         $path=$graphNode['images'][0]; 
                         $image_path=$path['source'];
                         $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($image_path));
-                        sleep(0.3);
                     }
                     $nextImg = $fb->next($graphEdge);
                     $data_json=json_decode($nextImg, true);
@@ -146,7 +140,6 @@
                             $image_path=$path['source'];
                             $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($image_path));
                             $j++;
-                            sleep(0.3);
                         }
                     }
                     $zip->close();
@@ -182,7 +175,6 @@
                         $path=$graphNode['images'][0]; 
                         $image_path=$path['source'];
                         $zip->addFromString($album_id."/".$j.'.jpg', file_get_contents($image_path));
-                        sleep(0.3);
                     }
                     $nextImg = $fb->next($graphEdge);
                     $data_json=json_decode($nextImg, true);
@@ -194,7 +186,6 @@
                             $image_path=$path['source'];
                             $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($image_path));
                             $j++;
-                            sleep(0.3);
                         }
                     }
                     $zip->close();
