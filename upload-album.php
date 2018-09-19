@@ -34,7 +34,7 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
     // Get your app info from JSON downloaded from google dev console
     $CLIENT_ID = $json['web']['client_id'];
     $CLIENT_SECRET = $json['web']['client_secret'];
-    $REDIRECT_URI = $json['web']['redirect_uris'][2];
+    $REDIRECT_URI = $json['web']['redirect_uris'][3];
 
     // Create a new Client
     $client = new Google_Client();
@@ -104,7 +104,7 @@ if (isset($_REQUEST['uploadAlbums'])) {
     
     $CLIENT_ID = $json['web']['client_id'];
     $CLIENT_SECRET = $json['web']['client_secret'];
-    $REDIRECT_URI = $json['web']['redirect_uris'][2];
+    $REDIRECT_URI = $json['web']['redirect_uris'][3];
 
     // Create a new Client
     $client = new Google_Client();

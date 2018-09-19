@@ -9,7 +9,7 @@ $json = json_decode(file_get_contents("lib/conf/GoogleClientId.json"), true);
 
 $CLIENT_ID = $json['web']['client_id'];
 $CLIENT_SECRET = $json['web']['client_secret'];
-$REDIRECT_URI = $json['web']['redirect_uris'][2];
+$REDIRECT_URI = $json['web']['redirect_uris'][3];
 
 // Set the scopes you need
 $SCOPES = array(
