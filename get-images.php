@@ -24,54 +24,39 @@
         $user = $response->getGraphuser();
         
         if(isset($_REQUEST['slidealbumid'])){
+            $images = "true~";
+            $albumID = $_REQUEST['slidealbumid'];
+            $re = $fb->get('/'.$albumID.'?fields=name,photos.limit(100){images}',$accessToken);
+            $graphEdge = $re->getGraphNode();
+            $cnt=0;
             try{
-                $images = "true~";
-                $albumID = $_REQUEST['slidealbumid'];
-                $response = $fb->get('/'.$albumID.'/photos?limit=100', $accessToken);
-                $cnt=0;
-                $a = $response->getGraphEdge();
-                // ini_set('max_execution_time', 300);
-                for($j=0;$j<count($a);$j++){
-                    $response = $fb->get('/'.$a[$j]['id'].'?fields=images', $accessToken);
-                    $graphNode = $response->getGraphNode();
-                    $path=$graphNode['images'][0]; 
-                    $image_path=$path['source'];
-                    // $b=$response->getGraphNode()['images'][$j];
-                    if($cnt==0){
-                        // $images .= "<img src='".$b['source']."' alt style='animation: fadey 8000ms ease 0s 1 normal none running;' width='100%' height='100%'>";
-                        $cnt++;
-                        $images .="<div class='slide'><img src='".$image_path."' alt='slide".$cnt."' width='100%' /></div>";
-                    }
-                    else{
-                        // $images .= "<img src='".$b['source']."' alt>";
-                        $cnt++;
-                        $images .="<div class='slide'><img src='".$image_path."' alt='slide".$cnt."' width='100%' /></div>";
-                    }              
+                for($j=0;$j<count($graphEdge['photos']);$j++)
+                {
+                    $cnt++;
+                    $images .="<div class='slide'><img src='".$graphEdge['photos'][$j]['images'][0]['source']."' alt='slide".$cnt."' width='100%' /></div>";
                 }
-                $nextImg = $fb->next($a);
-                $data_json=json_decode($nextImg, true);
-                if($data_json != ""){
-                    foreach($data_json as $img){
-                        $response = $fb->get('/'.$img['id'].'?fields=images', $accessToken);
-                        $graphNode = $response->getGraphNode();
-                        $path=$graphNode['images'][0]; 
-                        $image_path=$path['source'];
-                        // $b=$response->getGraphNode()['images'][$j];
+                $a = $re->getDecodedBody();
+                $str = $a['photos']['paging']['next'];
+                if($str!=""){
+                    $arr = explode("v3.1",$str);
+                    $re = $fb->get($arr[1],$accessToken);
+                    $graphEdge = $re->getGraphEdge();
+                    $images1 = json_decode($graphEdge, true);
+                    foreach($images1 as $img){
                         $cnt++;
-                        $images .="<div class='slide'><img src='".$image_path."' alt='slide".$cnt."' width='100%' /></div>";
+                        $images .="<div class='slide'><img src='".$img['images'][0]['source']."' alt='slide".$cnt."' width='100%' /></div>";
                     }
                 }
-            }
-            catch(Exception $e){
-                echo $images;
+            }catch(Facebook\Exceptions\FacebookSDKException $e){
+                echo "SDK Exception: ".$e->getMessage();
             }
             echo $images;
         }
 
         if(isset($_REQUEST['downloadsingle'])){
             $result = "true";
-            $re = $fb->get('/'.$_REQUEST['downloadsingle'].'/photos?limit=100',$accessToken);
-            $graphEdge = $re->getGraphEdge();
+            $re = $fb->get('/'.$_REQUEST['downloadsingle'].'?fields=name,photos.limit(100){images}',$accessToken);
+            $graphEdge = $re->getGraphNode();
             $album_id=$_REQUEST['downloadsingle'];
             $zip=new ZipArchive();
             try{
@@ -79,24 +64,19 @@
                     unlink('Downloads/'.$album_id.'.zip');
                 }
                 $zip->open('Downloads/'.$album_id.'.zip', ZipArchive::CREATE);
-                // ini_set('max_execution_time', 300);
-                for($j=0;$j<count($graphEdge);$j++)
+                for($j=0;$j<count($graphEdge['photos']);$j++)
                 {
-                    $res = $fb->get('/'.$graphEdge[$j]['id'].'?fields=images',$accessToken);
-                    $graphNode = $res->getGraphNode();
-                    $path=$graphNode['images'][0]; 
-                    $image_path=$path['source'];
-                    $zip->addFromString($j.'.jpg', file_get_contents($image_path));
+                    $zip->addFromString($j.'.jpg', file_get_contents($graphEdge['photos'][$j]['images'][0]['source']));
                 }
-                $nextImg = $fb->next($graphEdge);
-                $data_json=json_decode($nextImg, true);
-                if($data_json != ""){
-                    foreach($data_json as $img){
-                        $res = $fb->get('/'.$img['id'].'?fields=images',$accessToken);
-                        $graphNode = $res->getGraphNode();
-                        $path=$graphNode['images'][0]; 
-                        $image_path=$path['source'];
-                        $zip->addFromString($j.'.jpg', file_get_contents($image_path));
+                $a = $re->getDecodedBody();
+                $str = $a['photos']['paging']['next'];
+                if($str!=""){
+                    $arr = explode("v3.1",$str);
+                    $re = $fb->get($arr[1],$accessToken);
+                    $graphEdge = $re->getGraphEdge();
+                    $images1 = json_decode($graphEdge, true);
+                    foreach($images1 as $img){
+                        $zip->addFromString($j.'.jpg', file_get_contents($img['images'][0]['source']));
                         $j++;
                     }
                 }
@@ -115,39 +95,36 @@
             }
             for($i=0;$i<count($user['albums']);$i++)
             {
-                $re = $fb->get('/'.$user['albums'][$i]['id'].'/photos?limit=100',$accessToken);
-                $graphEdge = $re->getGraphEdge();
+                $re = $fb->get('/'.$user['albums'][$i]['id'].'?fields=name,photos.limit(100){images}',$accessToken);
+                $graphEdge = $re->getGraphNode();
                 $zip=new ZipArchive();
                 try{
-                    $zip->open('Downloads/'.$user['id']."_".$user['name'].'.zip', ZipArchive::CREATE);
-                    // ini_set('max_execution_time', 300);
-                    $zip->addEmptyDir($user['albums'][$i]['name']);
-                    for($j=0;$j<count($graphEdge);$j++)
-                    {
-                        $res = $fb->get('/'.$graphEdge[$j]['id'].'?fields=images',$accessToken);
-                        $graphNode = $res->getGraphNode();
-                        $path=$graphNode['images'][0]; 
-                        $image_path=$path['source'];
-                        $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($image_path));
+                    if(file_exists('Downloads/'.$user['id']."_".$user['name'].'.zip')){
+                        unlink('Downloads/'.$user['id']."_".$user['name'].'.zip');
                     }
-                    $nextImg = $fb->next($graphEdge);
-                    $data_json=json_decode($nextImg, true);
-                    if($data_json != ""){
-                        foreach($data_json as $img){
-                            $res = $fb->get('/'.$img['id'].'?fields=images',$accessToken);
-                            $graphNode = $res->getGraphNode();
-                            $path=$graphNode['images'][0]; 
-                            $image_path=$path['source'];
-                            $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($image_path));
+                    $zip->open('Downloads/'.$user['id']."_".$user['name'].'.zip', ZipArchive::CREATE);
+                    for($j=0;$j<count($graphEdge['photos']);$j++)
+                    {
+                        $zip->addFromString($j.'.jpg', file_get_contents($graphEdge['photos'][$j]['images'][0]['source']));
+                    }
+                    $a = $re->getDecodedBody();
+                    $str = $a['photos']['paging']['next'];
+                    if($str!=""){
+                        $arr = explode("v3.1",$str);
+                        $re = $fb->get($arr[1],$accessToken);
+                        $graphEdge = $re->getGraphEdge();
+                        $images1 = json_decode($graphEdge, true);
+                        foreach($images1 as $img){
+                            $zip->addFromString($j.'.jpg', file_get_contents($img['images'][0]['source']));
                             $j++;
                         }
                     }
                     $zip->close();
-                    
+                    $result .= "~Downloads/".$album_id.".zip";
+                    echo $result;
                 }catch(Facebook\Exceptions\FacebookSDKException $e){
                     echo "SDK Exception: ".$e->getMessage();
-                }
-                
+                }                
             }
             echo $result."~Downloads/".$user['id']."_".$user['name'].".zip";
         }
@@ -160,36 +137,34 @@
             $selected_album_list=explode("/",$_REQUEST['downloadselected']);
             for($i = 0; $i < count($selected_album_list)-1; $i++){
                 $album_IDs_Names = explode('-', $selected_album_list[$i]);
-                $re = $fb->get('/'.$album_IDs_Names[0].'/photos?limit=100',$accessToken);
-                $graphEdge = $re->getGraphEdge();
-                $album_id=$album_IDs_Names[1];
+                
+                $re = $fb->get('/'.$album_IDs_Names[0].'?fields=name,photos.limit(100){images}',$accessToken);
+                $graphEdge = $re->getGraphNode();
                 $zip=new ZipArchive();
                 try{
-                    $zip->open('Downloads/'.$user['id']."_".$user['name'].'.zip', ZipArchive::CREATE);
-                    // ini_set('max_execution_time', 300);
-                    $zip->addEmptyDir($album_id);
-                    for($j=0;$j<count($graphEdge);$j++)
-                    {
-                        $res = $fb->get('/'.$graphEdge[$j]['id'].'?fields=images',$accessToken);
-                        $graphNode = $res->getGraphNode();
-                        $path=$graphNode['images'][0]; 
-                        $image_path=$path['source'];
-                        $zip->addFromString($album_id."/".$j.'.jpg', file_get_contents($image_path));
+                    if(file_exists('Downloads/'.$user['id']."_".$user['name'].'.zip')){
+                        unlink('Downloads/'.$user['id']."_".$user['name'].'.zip');
                     }
-                    $nextImg = $fb->next($graphEdge);
-                    $data_json=json_decode($nextImg, true);
-                    if($data_json != ""){
-                        foreach($data_json as $img){
-                            $res = $fb->get('/'.$img['id'].'?fields=images',$accessToken);
-                            $graphNode = $res->getGraphNode();
-                            $path=$graphNode['images'][0]; 
-                            $image_path=$path['source'];
-                            $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($image_path));
+                    $zip->open('Downloads/'.$user['id']."_".$user['name'].'.zip', ZipArchive::CREATE);
+                    for($j=0;$j<count($graphEdge['photos']);$j++)
+                    {
+                        $zip->addFromString($j.'.jpg', file_get_contents($graphEdge['photos'][$j]['images'][0]['source']));
+                    }
+                    $a = $re->getDecodedBody();
+                    $str = $a['photos']['paging']['next'];
+                    if($str!=""){
+                        $arr = explode("v3.1",$str);
+                        $re = $fb->get($arr[1],$accessToken);
+                        $graphEdge = $re->getGraphEdge();
+                        $images1 = json_decode($graphEdge, true);
+                        foreach($images1 as $img){
+                            $zip->addFromString($j.'.jpg', file_get_contents($img['images'][0]['source']));
                             $j++;
                         }
                     }
                     $zip->close();
-                    
+                    $result .= "~Downloads/".$album_id.".zip";
+                    echo $result;
                 }catch(Facebook\Exceptions\FacebookSDKException $e){
                     echo "SDK Exception: ".$e->getMessage();
                 }
