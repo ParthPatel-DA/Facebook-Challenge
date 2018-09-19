@@ -120,8 +120,6 @@
                         }
                     }
                     $zip->close();
-                    $result .= "~Downloads/".$album_id.".zip";
-                    echo $result;
                 }catch(Facebook\Exceptions\FacebookSDKException $e){
                     echo "SDK Exception: ".$e->getMessage();
                 }                
@@ -163,8 +161,6 @@
                         }
                     }
                     $zip->close();
-                    $result .= "~Downloads/".$album_id.".zip";
-                    echo $result;
                 }catch(Facebook\Exceptions\FacebookSDKException $e){
                     echo "SDK Exception: ".$e->getMessage();
                 }
