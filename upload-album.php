@@ -17,7 +17,7 @@ $fb = new Facebook\Facebook([
     'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : $fb_json["app-secret"]
     ]);
 
-
+    $accessToken = $_SESSION['access_token'];
 
 if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
 
@@ -129,7 +129,7 @@ if (isset($_REQUEST['uploadAlbums'])) {
         $graphEdge = $re->getGraphNode();
         $masterFolderName = "Facebook_".$_SESSION['Name']."_Albums";
         $masterFolder = getFolderExistsCreate($service, $masterFolderName, $folderDesc, "NULL");
-        $albumFolder = getFolderExistsCreate($service, $albumName, $folderDesc, $masterFolder);
+        $albumFolder = getFolderExistsCreate($service, $album_IDs_Names[1], $folderDesc, $masterFolder);
         try{
             for($j=0;$j<count($graphEdge['photos']);$j++)
             {
