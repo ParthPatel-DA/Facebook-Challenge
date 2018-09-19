@@ -105,7 +105,7 @@
                     $zip->open('Downloads/'.$user['id']."_".$user['name'].'.zip', ZipArchive::CREATE);
                     for($j=0;$j<count($graphEdge['photos']);$j++)
                     {
-                        $zip->addFromString($j.'.jpg', file_get_contents($graphEdge['photos'][$j]['images'][0]['source']));
+                        $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($graphEdge['photos'][$j]['images'][0]['source']));
                     }
                     $a = $re->getDecodedBody();
                     $str = $a['photos']['paging']['next'];
@@ -115,7 +115,7 @@
                         $graphEdge = $re->getGraphEdge();
                         $images1 = json_decode($graphEdge, true);
                         foreach($images1 as $img){
-                            $zip->addFromString($j.'.jpg', file_get_contents($img['images'][0]['source']));
+                            $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($img['images'][0]['source']));
                             $j++;
                         }
                     }
@@ -146,7 +146,7 @@
                     $zip->open('Downloads/'.$user['id']."_".$user['name'].'.zip', ZipArchive::CREATE);
                     for($j=0;$j<count($graphEdge['photos']);$j++)
                     {
-                        $zip->addFromString($j.'.jpg', file_get_contents($graphEdge['photos'][$j]['images'][0]['source']));
+                        $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($graphEdge['photos'][$j]['images'][0]['source']));
                     }
                     $a = $re->getDecodedBody();
                     $str = $a['photos']['paging']['next'];
@@ -156,7 +156,7 @@
                         $graphEdge = $re->getGraphEdge();
                         $images1 = json_decode($graphEdge, true);
                         foreach($images1 as $img){
-                            $zip->addFromString($j.'.jpg', file_get_contents($img['images'][0]['source']));
+                            $zip->addFromString($user['albums'][$i]['name']."/".$j.'.jpg', file_get_contents($img['images'][0]['source']));
                             $j++;
                         }
                     }
