@@ -8,6 +8,7 @@ require_once 'lib/google-api-php-client/src/Google/Client.php';
 require_once 'lib/google-api-php-client/src/Google/Service/Oauth2.php';
 require_once 'lib/google-api-php-client/src/Google/Service/Drive.php';
 require_once 'googleDrive-config.php';
+require_once 'getallimages.php';
 
 $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
 $fb = new Facebook\Facebook([
@@ -51,40 +52,24 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
     $service = new Google_Service_Drive($client);
 
 
-    $re = $fb->get('/'.$albumID.'?fields=name,photos.limit(100){images}',$accessToken);
-    $graphEdge = $re->getGraphNode();
+    // $re = $fb->get('/'.$albumID.'?fields=name,photos.limit(100){images}',$accessToken);
+    // $graphEdge = $re->getGraphNode();
+    $AllAlbums = getAllImages($albumID, $fb);
+    $arr = explode("~",$AllAlbums);
     $masterFolderName = "Facebook_".$_SESSION['Name']."_Albums";
     $masterFolder = getFolderExistsCreate($service, $masterFolderName, $folderDesc, "NULL");
     $albumFolder = getFolderExistsCreate($service, $albumName, $folderDesc, $masterFolder);
     try{
-        for($j=0;$j<count($graphEdge['photos']);$j++)
+        for($j=0;$j<count($arr)-1;$j++)
         {
             $mimeType = 'image/jpeg';
             $title = $j.".jpg";
             $description = "Facebook Album Image";
-            $file_tmp_name = $graphEdge['photos'][$j]['images'][0]['source'];
+            $file_tmp_name = $arr[$j];
             // Call the insert function with parameters listed below
             $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
         }
-        $a = $re->getDecodedBody();
-        $str = $a['photos']['paging']['next'];
-        if($str!=""){
-            $arr = explode("v3.1",$str);
-            $re = $fb->get($arr[1],$accessToken);
-            $graphEdge = $re->getGraphEdge();
-            $images1 = json_decode($graphEdge, true);
-            foreach($images1 as $img){
-                $file_tmp_name = $img['images'][0]['source'];
-            
-                // Set the file metadata for drive
-                $mimeType = 'image/jpeg';
-                $title = $j.".jpg";
-                $description = "Facebook Album Image";
-                $j++;
-                // Call the insert function with parameters listed below
-                $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
-            }
-        }
+
     }catch(Facebook\Exceptions\FacebookSDKException $e){
         echo "SDK Exception: ".$e->getMessage();
     }
@@ -124,40 +109,20 @@ if (isset($_REQUEST['uploadAlbums'])) {
 
     foreach ($arrAlbums as $album) {
         $album_IDs_Names = explode('-', $album);
-
-        $re = $fb->get('/'.$album_IDs_Names[0].'?fields=name,photos.limit(100){images}',$accessToken);
-        $graphEdge = $re->getGraphNode();
+        $AllAlbums = getAllImages($album_IDs_Names[0], $fb);
+        $arr = explode("~",$AllAlbums);
         $masterFolderName = "Facebook_".$_SESSION['Name']."_Albums";
         $masterFolder = getFolderExistsCreate($service, $masterFolderName, $folderDesc, "NULL");
         $albumFolder = getFolderExistsCreate($service, $album_IDs_Names[1], $folderDesc, $masterFolder);
         try{
-            for($j=0;$j<count($graphEdge['photos']);$j++)
+            for($j=0;$j<count($arr)-1;$j++)
             {
                 $mimeType = 'image/jpeg';
                 $title = $j.".jpg";
                 $description = "Facebook Album Image";
-                $file_tmp_name = $graphEdge['photos'][$j]['images'][0]['source'];
+                $file_tmp_name = $arr[$j];
                 // Call the insert function with parameters listed below
                 $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
-            }
-            $a = $re->getDecodedBody();
-            $str = $a['photos']['paging']['next'];
-            if($str!=""){
-                $arr = explode("v3.1",$str);
-                $re = $fb->get($arr[1],$accessToken);
-                $graphEdge = $re->getGraphEdge();
-                $images1 = json_decode($graphEdge, true);
-                foreach($images1 as $img){
-                    $file_tmp_name = $img['images'][0]['source'];
-                
-                    // Set the file metadata for drive
-                    $mimeType = 'image/jpeg';
-                    $title = $j.".jpg";
-                    $description = "Facebook Album Image";
-                    $j++;
-                    // Call the insert function with parameters listed below
-                    $driveInfo = insertFile($service, $title, $description, $mimeType, $file_tmp_name, $albumFolder);
-                }
             }
         }catch(Facebook\Exceptions\FacebookSDKException $e){
             echo "SDK Exception: ".$e->getMessage();
