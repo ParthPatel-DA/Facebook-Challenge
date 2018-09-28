@@ -6,6 +6,8 @@
 
     varFollower.style.display = "block";
     
+    // apply css design for select & deselect checkbox and visible button of "Upload Selected Album" & "Download Selected Album"
+
     function checkAlbum(element) {
         
         var a = element;

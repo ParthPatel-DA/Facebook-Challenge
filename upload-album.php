@@ -44,8 +44,7 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
     $service = new Google_Service_Drive($client);
 
 
-    // $re = $fb->get('/'.$albumID.'?fields=name,photos.limit(100){images}',$accessToken);
-    // $graphEdge = $re->getGraphNode();
+    // get all images source in string format separated by "~"
     $AllAlbums = getAllImages($albumID, $fb);
     $arr = explode("~",$AllAlbums);
     $masterFolderName = "Facebook_".$_SESSION['Name']."_Albums";
@@ -101,6 +100,7 @@ if (isset($_REQUEST['uploadAlbums'])) {
 
     foreach ($arrAlbums as $album) {
         $album_IDs_Names = explode('-', $album);
+        // get all images source in string format separated by "~"
         $AllAlbums = getAllImages($album_IDs_Names[0], $fb);
         $arr = explode("~",$AllAlbums);
         $masterFolderName = "Facebook_".$_SESSION['Name']."_Albums";

@@ -21,10 +21,12 @@
 
 <body bgcolor="#e9ebee">
     <?php
+        // include required files
         require_once('googleDrive-config.php');
         require_once('fb-config.php');
         require_once('upload-album.php');
         $permissions = ['user_photos'];
+        // redirect on login page, if session not set with "access_token" key
         if(!isset($_SESSION['access_token'])){
             header("Location: login.php");
         }
@@ -32,8 +34,10 @@
             $accessToken =  $_SESSION['access_token'];
             if (isset($accessToken)) 
             {
+                // get user data
                 $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
                 $user = $response->getGraphuser();
+                // set userName in session
                 $_SESSION['Name'] = $user['name'];
     ?>
     <section class="profile-header-box">

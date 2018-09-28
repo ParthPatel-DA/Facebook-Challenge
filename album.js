@@ -2,6 +2,9 @@
     var modelBG = document.getElementById("model-background");
     var model = document.getElementById("model");
     var modelSlider = document.getElementById("model-slider");
+
+    // close Full Screen slider
+
     function cancelFullScreen() {
         if (document.cancelFullScreen) {
             document.cancelFullScreen();
@@ -16,7 +19,10 @@
         varTimeLine.style.display = "none";
     }
     
-    
+    // End - close Full Screen slider
+
+
+    // ajax call for get slider's images
 
     function fullScreen(element) {
         Model();
@@ -28,19 +34,7 @@
             }
         }
 
-        // var elementcontainer = document.getElementById("container");
-        // if (elementcontainer.requestFullScreen) {
-        //     elementcontainer.requestFullScreen();
-        // } else if (elementcontainer.webkitRequestFullScreen) {
-        //     elementcontainer.webkitRequestFullScreen();
-        // } else if (elementcontainer.mozRequestFullScreen) {
-        //     elementcontainer.mozRequestFullScreen();
-        // }
-    
-        // elementcontainer.setAttribute("onclick", "cancelFullScreen()");
-        // var varTimeLine = document.getElementById("mode-");
         var y = document.getElementById("slideshow");
-        // y.innerHTML = "";
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4){
@@ -85,6 +79,11 @@
         xmlhttp.send();
     }
 
+    // End - ajax call for get slider's images
+
+
+    // ajax call for Download zip of Single Album images
+
     function DownloadSingle(element){
         ModelDownload();
         var xmlhttp = new XMLHttpRequest();
@@ -120,6 +119,11 @@
         xmlhttp.open("GET", "get-images.php?downloadsingle="+element, true);
         xmlhttp.send();
     }
+
+    // End - ajax call for Download zip of Single Album images
+
+
+    // ajax call for Download zip of All Album images
 
     function DownloadAll(){
         ModelDownload();
@@ -158,6 +162,10 @@
         xmlhttp.open("GET", "get-images.php?downloadall=all", true);
         xmlhttp.send();
     }
+
+    // End - ajax call for Download zip of All Album images
+
+    // ajax call for Download zip of Selected Album images
 
     function DownloadSelected(){
         ModelDownload();
@@ -201,6 +209,11 @@
         xmlhttp.open("GET", "get-images.php?downloadselected="+albumID, true);
         xmlhttp.send();
     }
+
+    // End - ajax call for Download zip of Selected Album images
+
+
+    // ajax call for Upload Single Album images on Google Drive
     
     function UploadToDriveSingle(albumid, name) {
         ModelUpload();
@@ -233,6 +246,11 @@
             xmlhttp.send(null);
         }
     }
+
+    // End - ajax call for Upload Single Album images on Google Drive
+
+
+    // ajax call for Upload All Album images on Google Drive
 
     function UploadAll(){
         ModelUpload();
@@ -271,6 +289,11 @@
         }
     }
 
+    // End - ajax call for Upload All Album images on Google Drive
+
+
+    // ajax call for Upload Selected Album images on Google Drive
+
     function UploadSelected(){
         ModelUpload();
         var albumID="";
@@ -307,35 +330,31 @@
         }
     }
 
-    function getCookie(cname) {
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for(var i = 0; i <ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
+    // End - ajax call for Upload Selected Album images on Google Drive
 
-    // window.onload = function() {
-    //   imgs = document.getElementById('slideshow').children;
-    //   interval = 8000;
-    //   currentPic = 0;
-    //   imgs[currentPic].style.webkitAnimation = 'fadey '+interval+'ms';
-    //   imgs[currentPic].style.animation = 'fadey '+interval+'ms';
-    //   var infiniteLoop = setInterval(function(){
-    //     imgs[currentPic].removeAttribute('style');
-    //     if ( currentPic == imgs.length - 1) { currentPic = 0; } else { currentPic++; }
-    //     imgs[currentPic].style.webkitAnimation = 'fadey '+interval+'ms';
-    //     imgs[currentPic].style.animation = 'fadey '+interval+'ms';
-    //   }, interval);
-    // }
+
+    // get Cookie value of given argument using javascript
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    // End - get Cookie value of given argument using javascript
+
+
+    // Open pop-up for google Login
 
     function GoogleModel(){
         modelBG.style.display = "block";
@@ -346,6 +365,11 @@
         document.getElementById("modelGoogleLogin").style.display = "block";
     }
 
+    // End - Open pop-up for google Login
+
+
+    // Open pop-up for display Download process
+
     function ModelDownload(){
         modelBG.style.display = "block";
         model.style.display = "block";
@@ -354,6 +378,11 @@
         document.getElementById("modelMsg").style.display = "block";
         document.getElementById("modelGoogleLogin").style.display = "none";
     }
+
+    // End - Open pop-up for display Download process
+
+
+    // Open pop-up for display Upload process
 
     function ModelUpload(){
         modelBG.style.display = "block";
@@ -364,10 +393,20 @@
         document.getElementById("modelGoogleLogin").style.display = "none";
     }
 
+    // End - Open pop-up for display Upload process
+
+
+    // ----
+
     function ModelSlier(){
         modelBG.style.display = "block";
         modelSlider.style.display = "block";
     }
+
+    // ----
+
+
+    // Open pop-up for display fa slider
 
     function Model(){
         modelBG.style.display = "block";
@@ -378,7 +417,14 @@
         document.getElementById("modelGoogleLogin").style.display = "none";
     }
 
+    // End - Open pop-up for display slider process
+
+
+    // close pop-up
+
     function CloseSilder(){
         modelBG.style.display = "none";
         modelSlider.style.display = "none";
     }
+
+    // End - close pop-up

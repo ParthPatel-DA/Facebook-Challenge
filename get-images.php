@@ -4,6 +4,7 @@
         session_start(); 
     }
 
+    // include required files
     require_once('fb-config.php');
     require_once('getallimages.php');
 
@@ -11,12 +12,16 @@
     $accessToken =  $_SESSION['access_token'];  
     if (isset($accessToken)) 
     {
+        // get user data
         $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
         $user = $response->getGraphuser();
         
+        // Fetches Images from Single Album for Slider
+
         if(isset($_REQUEST['slidealbumid'])){
             $images = "true~";
             $albumID = $_REQUEST['slidealbumid'];
+            // get all images source in string format separated by "~"
             $AllAlbums = getAllImages($albumID, $fb);
             $arr = explode("~",$AllAlbums);
             for($j=0;$j<count($arr)-1;$j++)
@@ -26,9 +31,15 @@
             echo $images;
         }
 
+        // End - Fetches Images from Single Album for Slider
+
+        
+        // Fetches Images from Single Album, generate zip file and return name of zip file
+
         if(isset($_REQUEST['downloadsingle'])){
             $result = "true";
             $album_id=$_REQUEST['downloadsingle'];
+            // get all images source in string format separated by "~"
             $AllAlbums = getAllImages($album_id, $fb);
             $arr = explode("~",$AllAlbums);
             $zip=new ZipArchive();
@@ -48,6 +59,11 @@
                 echo "SDK Exception: ".$e->getMessage();
             }
         }
+
+        // End - Fetches Images from Single Album, generate zip file and return name of zip file
+
+
+        // Fetches Images from All Album, generate zip file and return name of zip file
         
         if(isset($_REQUEST['downloadall'])){
             $result = "true";
@@ -56,6 +72,7 @@
             }
             for($i=0;$i<count($user['albums']);$i++)
             {
+                // get all images source in string format separated by "~"
                 $AllAlbums = getAllImages($user['albums'][$i]['id'], $fb);
                 $arr = explode("~",$AllAlbums);
                 $zip=new ZipArchive();
@@ -74,6 +91,11 @@
             echo $result."~Downloads/".$user['id']."_".$user['name'].".zip";
         }
 
+        // End - Fetches Images from All Album, generate zip file and return name of zip file
+
+
+        // Fetches Images from Selected Album, generate zip file and return name of zip file
+
         if(isset($_REQUEST['downloadselected'])){
             $result = "true";
             if(file_exists('Downloads/'.$user['id']."_".$user['name'].'.zip')){
@@ -82,6 +104,7 @@
             $selected_album_list=explode("/",$_REQUEST['downloadselected']);
             for($i = 0; $i < count($selected_album_list)-1; $i++){
                 $album_IDs_Names = explode('-', $selected_album_list[$i]);
+                // get all images source in string format separated by "~"
                 $AllAlbums = getAllImages($album_IDs_Names[0], $fb);
                 $arr = explode("~",$AllAlbums);
                 $zip=new ZipArchive();
@@ -99,6 +122,8 @@
             }
             echo $result."~Downloads/".$user['id']."_".$user['name'].".zip";
         }
+
+        // End - Fetches Images from Selected Album, generate zip file and return name of zip file
 
     } else {
         $fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);

@@ -2,6 +2,7 @@
         require_once "googleDrive-config.php";
         session_start();
         global $CLIENT_ID, $CLIENT_SECRET, $REDIRECT_URI;
+        // initialize Google_Client object and set values
         $client = new Google_Client();
         $client->setClientId($CLIENT_ID);
         $client->setClientSecret($CLIENT_SECRET);
