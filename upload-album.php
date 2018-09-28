@@ -10,15 +10,7 @@ require_once 'lib/google-api-php-client/src/Google/Service/Drive.php';
 require_once 'googleDrive-config.php';
 require_once 'getallimages.php';
 
-$fb_json = json_decode(file_get_contents("lib/conf/fb-key.json"), true);
-$fb = new Facebook\Facebook([
-    'app_id' => $fb_json["app-id"], // Replace {app-id} with your app id
-    'app_secret' => $fb_json["app-secret"],
-    'default_graph_version' => 'v2.2',
-    'default_access_token' => isset($_SESSION['facebook_access_token']) ? $_SESSION['facebook_access_token']  : $fb_json["app-secret"]
-    ]);
-
-    $accessToken = $_SESSION['access_token'];
+$accessToken = $_SESSION['access_token'];
 
 if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
 

@@ -19,12 +19,12 @@
         exit();
     }
     try{
-        $OAuth2Client = $FB->getOAuth2Client();
+        $OAuth2Client = $fb->getOAuth2Client();
         if(!$accessToken->isLongLived())
         {
             $accessToken =$OAuth2Client->getLongLivedAceessToken($accessToken);
         }
-        $response = $FB->get("/me?fields=id,first_name,last_name,email",$accessToken);
+        $response = $fb->get("/me?fields=id,first_name,last_name,email",$accessToken);
         $userdata =$response->getGraphNode()->asArray();
         $_SESSION['userData']=$userdata;
         $_SESSION['access_token']=(string)$accessToken;
