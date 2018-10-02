@@ -38,7 +38,7 @@ PHP
 
     Note – Before submitting your challenge for review, please add Facebook profile with username ‘rtc.test‘ as tester while your app is in development mode. This will expedite the review process.
 
-## Link to the Live Project: https://parthpatel98149.000webhostapp.com
+## Link to the Live Project: https://facebook-challenge-rtcamp.herokuapp.com
 ## Github Project Link: https://github.com/ParthPatel-DA/Facebook-Challenge
 
 # Deployment Guide:
